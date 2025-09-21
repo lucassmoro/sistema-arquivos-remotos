@@ -1,5 +1,10 @@
 syntax = "proto3";
 
+package sistemaarquivos;
+
+option java_package = "com.mycompany.ine5418";
+option java_outer_classname = "SistemaArquivosProto";
+
 service SistemaArquivos{
     rpc Abre (AbreRequest) returns (AbreReply);
     rpc Le (LeRequest) returns (LeReply);
