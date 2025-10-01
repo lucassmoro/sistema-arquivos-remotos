@@ -117,6 +117,24 @@ public class ServidorSistemaArquivos extends SistemaArquivosGrpc.SistemaArquivos
         responseObserver.onNext(responseBuilder.build());
         responseObserver.onCompleted();
     }
-    
+
+    public void fecha(SistemaArquivosProto.FechaRequest req,
+                      StreamObserver<SistemaArquivosProto.FechaReply> responseObserver){
+
+        SistemaArquivosProto.FechaReply.Builder responseBuilder = SistemaArquivosProto.FechaReply.newBuilder();
+
+        try {
+            int descritor = req.getDescritor();
+            tabelaArquivos.remove(descritor);
+
+            responseBuilder.setStatus(0);
+
+        } catch (Exception e) {
+            responseBuilder.setStatus(1);
+        }
+
+        responseObserver.onNext(responseBuilder.build());
+        responseObserver.onCompleted();
+    }
 
 }
