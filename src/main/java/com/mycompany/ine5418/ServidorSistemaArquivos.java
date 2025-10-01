@@ -7,10 +7,11 @@ package com.mycompany.ine5418;
 import com.google.protobuf.ByteString;
 import io.grpc.stub.StreamObserver;
 
+import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.file.*;
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -80,9 +81,42 @@ public class ServidorSistemaArquivos extends SistemaArquivosGrpc.SistemaArquivos
 
         responseObserver.onNext(responseBuilder.build());
         responseObserver.onCompleted();
-
-
-
     }
+
+    public void escreve(SistemaArquivosProto.EscreveRequest req,
+                        StreamObserver<SistemaArquivosProto.EscreveReply> responseObserver){
+
+        SistemaArquivosProto.EscreveReply.Builder responseBuilder = SistemaArquivosProto.EscreveReply.newBuilder();
+        try {
+            int descritor = req.getDescritor();
+            int posicao = req.getPosicao();
+            ByteString conteudo = req.getConteudoEscrever();
+
+
+            String nome_arquivo = tabelaArquivos.get(descritor);
+            if (nome_arquivo == null){
+                throw new IllegalArgumentException("Descritor invalido");
+            }
+
+            Path path = Paths.get(nome_arquivo);
+            FileChannel channel = FileChannel.open(path, StandardOpenOption.WRITE);
+            ByteBuffer buffer = ByteBuffer.wrap(conteudo.toByteArray());
+
+            channel.position(posicao);
+
+            while(buffer.hasRemaining()){
+                channel.write(buffer);
+            }
+
+            responseBuilder.setStatus(0).setBytesEscritos(conteudo.toByteArray().length);
+
+        } catch (Exception e) {
+            responseBuilder.setStatus(1).setBytesEscritos(0);
+        }
+
+        responseObserver.onNext(responseBuilder.build());
+        responseObserver.onCompleted();
+    }
+    
 
 }
