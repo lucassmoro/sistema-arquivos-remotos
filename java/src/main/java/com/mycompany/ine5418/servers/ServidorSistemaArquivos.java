@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ServidorSistemaArquivos extends SistemaArquivosGrpc.SistemaArquivosImplBase {
     
     private final ConcurrentHashMap<Integer, String> tabelaArquivos = new ConcurrentHashMap<>(); //mapper thread-safe que mapeia um descritor do cliente para um arquivo do servidor
-    private final AtomicInteger contadorDescritor = new AtomicInteger(1); // variavel atomica que garante o incremento com concorrencia, gera descritores unicos pro cliente
+    private final AtomicInteger contadorDescritor = new AtomicInteger(0); // variavel atomica que garante o incremento com concorrencia, gera descritores unicos pro cliente
     
     @Override
     public void abre(SistemaArquivosProto.AbreRequest req, //AbreRequest é uma classe dentro da classe SistemaArquivosProto gerada no protobuf
