@@ -98,16 +98,16 @@ public class ServidorSistemaArquivos extends SistemaArquivosGrpc.SistemaArquivos
             }
 
             Path path = Paths.get(nome_arquivo);
-            FileChannel channel = FileChannel.open(path, StandardOpenOption.WRITE);
-            ByteBuffer buffer = ByteBuffer.wrap(conteudo.toByteArray());
+            try (FileChannel channel = FileChannel.open(path, StandardOpenOption.WRITE)) {
+                ByteBuffer buffer = ByteBuffer.wrap(conteudo.toByteArray());
+                channel.position(posicao);
 
-            channel.position(posicao);
-
-            while(buffer.hasRemaining()){
-                channel.write(buffer);
+                while (buffer.hasRemaining()) {
+                    channel.write(buffer);
+                }
             }
 
-            responseBuilder.setStatus(0).setBytesEscritos(conteudo.toByteArray().length);
+            responseBuilder.setStatus(0).setBytesEscritos(conteudo.size());
 
         } catch (Exception e) {
             responseBuilder.setStatus(1).setBytesEscritos(0);
