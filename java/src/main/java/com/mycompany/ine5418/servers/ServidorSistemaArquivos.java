@@ -46,7 +46,7 @@ public class ServidorSistemaArquivos extends SistemaArquivosGrpc.SistemaArquivos
 
         } catch (Exception e){
             System.err.println("Erro ao abrir arquivo: " + e.getMessage());
-            responseBuilder.setStatus(1).setDescritor(-1);
+            responseBuilder.setStatus(-1).setDescritor(-1);
         }
         //falta implementar a resposta
         responseObserver.onNext(responseBuilder.build());
@@ -75,7 +75,7 @@ public class ServidorSistemaArquivos extends SistemaArquivosGrpc.SistemaArquivos
 
         } catch (Exception e) {
             System.err.println("Erro ao ler arquivo: " + e.getMessage());
-            responseBuilder.setStatus(1).setConteudoLer(ByteString.EMPTY);
+            responseBuilder.setStatus(-1).setConteudoLer(ByteString.EMPTY);
         }
 
         responseObserver.onNext(responseBuilder.build());
@@ -110,7 +110,7 @@ public class ServidorSistemaArquivos extends SistemaArquivosGrpc.SistemaArquivos
             responseBuilder.setStatus(0).setBytesEscritos(conteudo.size());
 
         } catch (Exception e) {
-            responseBuilder.setStatus(1).setBytesEscritos(0);
+            responseBuilder.setStatus(-1).setBytesEscritos(0);
         }
 
         responseObserver.onNext(responseBuilder.build());
@@ -129,7 +129,7 @@ public class ServidorSistemaArquivos extends SistemaArquivosGrpc.SistemaArquivos
             responseBuilder.setStatus(0);
 
         } catch (Exception e) {
-            responseBuilder.setStatus(1);
+            responseBuilder.setStatus(-1);
         }
 
         responseObserver.onNext(responseBuilder.build());
