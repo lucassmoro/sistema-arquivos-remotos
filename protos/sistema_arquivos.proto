@@ -11,6 +11,8 @@ service SistemaArquivos{
     rpc Le (LeRequest) returns (LeReply);
     rpc Escreve (EscreveRequest) returns (EscreveReply);
     rpc Fecha (FechaRequest) returns (FechaReply);
+
+    rpc ObterVersaoGlobal(VersaoRequest) returns (VersaoReply) {}
 }
 message AbreRequest {
     string nome_arquivo = 1;
@@ -49,4 +51,11 @@ message FechaRequest {
 
 message FechaReply {
     int32 status = 1;
+}
+
+message VersaoRequest {
+}
+
+message VersaoReply {
+  int64 versao_global = 1;
 }

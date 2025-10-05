@@ -139,6 +139,37 @@ public final class SistemaArquivosGrpc {
     return getFechaMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest,
+      com.mycompany.ine5418.SistemaArquivosProto.VersaoReply> getObterVersaoGlobalMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "ObterVersaoGlobal",
+      requestType = com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest.class,
+      responseType = com.mycompany.ine5418.SistemaArquivosProto.VersaoReply.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest,
+      com.mycompany.ine5418.SistemaArquivosProto.VersaoReply> getObterVersaoGlobalMethod() {
+    io.grpc.MethodDescriptor<com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest, com.mycompany.ine5418.SistemaArquivosProto.VersaoReply> getObterVersaoGlobalMethod;
+    if ((getObterVersaoGlobalMethod = SistemaArquivosGrpc.getObterVersaoGlobalMethod) == null) {
+      synchronized (SistemaArquivosGrpc.class) {
+        if ((getObterVersaoGlobalMethod = SistemaArquivosGrpc.getObterVersaoGlobalMethod) == null) {
+          SistemaArquivosGrpc.getObterVersaoGlobalMethod = getObterVersaoGlobalMethod =
+              io.grpc.MethodDescriptor.<com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest, com.mycompany.ine5418.SistemaArquivosProto.VersaoReply>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ObterVersaoGlobal"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.mycompany.ine5418.SistemaArquivosProto.VersaoReply.getDefaultInstance()))
+              .setSchemaDescriptor(new SistemaArquivosMethodDescriptorSupplier("ObterVersaoGlobal"))
+              .build();
+        }
+      }
+    }
+    return getObterVersaoGlobalMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -214,6 +245,13 @@ public final class SistemaArquivosGrpc {
         io.grpc.stub.StreamObserver<com.mycompany.ine5418.SistemaArquivosProto.FechaReply> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getFechaMethod(), responseObserver);
     }
+
+    /**
+     */
+    default void obterVersaoGlobal(com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest request,
+        io.grpc.stub.StreamObserver<com.mycompany.ine5418.SistemaArquivosProto.VersaoReply> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getObterVersaoGlobalMethod(), responseObserver);
+    }
   }
 
   /**
@@ -274,6 +312,14 @@ public final class SistemaArquivosGrpc {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getFechaMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void obterVersaoGlobal(com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest request,
+        io.grpc.stub.StreamObserver<com.mycompany.ine5418.SistemaArquivosProto.VersaoReply> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getObterVersaoGlobalMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -318,6 +364,13 @@ public final class SistemaArquivosGrpc {
     public com.mycompany.ine5418.SistemaArquivosProto.FechaReply fecha(com.mycompany.ine5418.SistemaArquivosProto.FechaRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getFechaMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public com.mycompany.ine5418.SistemaArquivosProto.VersaoReply obterVersaoGlobal(com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getObterVersaoGlobalMethod(), getCallOptions(), request);
     }
   }
 
@@ -368,12 +421,21 @@ public final class SistemaArquivosGrpc {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getFechaMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.mycompany.ine5418.SistemaArquivosProto.VersaoReply> obterVersaoGlobal(
+        com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getObterVersaoGlobalMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_ABRE = 0;
   private static final int METHODID_LE = 1;
   private static final int METHODID_ESCREVE = 2;
   private static final int METHODID_FECHA = 3;
+  private static final int METHODID_OBTER_VERSAO_GLOBAL = 4;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -407,6 +469,10 @@ public final class SistemaArquivosGrpc {
         case METHODID_FECHA:
           serviceImpl.fecha((com.mycompany.ine5418.SistemaArquivosProto.FechaRequest) request,
               (io.grpc.stub.StreamObserver<com.mycompany.ine5418.SistemaArquivosProto.FechaReply>) responseObserver);
+          break;
+        case METHODID_OBTER_VERSAO_GLOBAL:
+          serviceImpl.obterVersaoGlobal((com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest) request,
+              (io.grpc.stub.StreamObserver<com.mycompany.ine5418.SistemaArquivosProto.VersaoReply>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -454,6 +520,13 @@ public final class SistemaArquivosGrpc {
               com.mycompany.ine5418.SistemaArquivosProto.FechaRequest,
               com.mycompany.ine5418.SistemaArquivosProto.FechaReply>(
                 service, METHODID_FECHA)))
+        .addMethod(
+          getObterVersaoGlobalMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest,
+              com.mycompany.ine5418.SistemaArquivosProto.VersaoReply>(
+                service, METHODID_OBTER_VERSAO_GLOBAL)))
         .build();
   }
 
@@ -506,6 +579,7 @@ public final class SistemaArquivosGrpc {
               .addMethod(getLeMethod())
               .addMethod(getEscreveMethod())
               .addMethod(getFechaMethod())
+              .addMethod(getObterVersaoGlobalMethod())
               .build();
         }
       }

@@ -19,10 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	SistemaArquivos_Abre_FullMethodName    = "/sistemaarquivos.SistemaArquivos/Abre"
-	SistemaArquivos_Le_FullMethodName      = "/sistemaarquivos.SistemaArquivos/Le"
-	SistemaArquivos_Escreve_FullMethodName = "/sistemaarquivos.SistemaArquivos/Escreve"
-	SistemaArquivos_Fecha_FullMethodName   = "/sistemaarquivos.SistemaArquivos/Fecha"
+	SistemaArquivos_Abre_FullMethodName              = "/sistemaarquivos.SistemaArquivos/Abre"
+	SistemaArquivos_Le_FullMethodName                = "/sistemaarquivos.SistemaArquivos/Le"
+	SistemaArquivos_Escreve_FullMethodName           = "/sistemaarquivos.SistemaArquivos/Escreve"
+	SistemaArquivos_Fecha_FullMethodName             = "/sistemaarquivos.SistemaArquivos/Fecha"
+	SistemaArquivos_ObterVersaoGlobal_FullMethodName = "/sistemaarquivos.SistemaArquivos/ObterVersaoGlobal"
 )
 
 // SistemaArquivosClient is the client API for SistemaArquivos service.
@@ -33,6 +34,7 @@ type SistemaArquivosClient interface {
 	Le(ctx context.Context, in *LeRequest, opts ...grpc.CallOption) (*LeReply, error)
 	Escreve(ctx context.Context, in *EscreveRequest, opts ...grpc.CallOption) (*EscreveReply, error)
 	Fecha(ctx context.Context, in *FechaRequest, opts ...grpc.CallOption) (*FechaReply, error)
+	ObterVersaoGlobal(ctx context.Context, in *VersaoRequest, opts ...grpc.CallOption) (*VersaoReply, error)
 }
 
 type sistemaArquivosClient struct {
@@ -83,6 +85,16 @@ func (c *sistemaArquivosClient) Fecha(ctx context.Context, in *FechaRequest, opt
 	return out, nil
 }
 
+func (c *sistemaArquivosClient) ObterVersaoGlobal(ctx context.Context, in *VersaoRequest, opts ...grpc.CallOption) (*VersaoReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(VersaoReply)
+	err := c.cc.Invoke(ctx, SistemaArquivos_ObterVersaoGlobal_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SistemaArquivosServer is the server API for SistemaArquivos service.
 // All implementations must embed UnimplementedSistemaArquivosServer
 // for forward compatibility.
@@ -91,6 +103,7 @@ type SistemaArquivosServer interface {
 	Le(context.Context, *LeRequest) (*LeReply, error)
 	Escreve(context.Context, *EscreveRequest) (*EscreveReply, error)
 	Fecha(context.Context, *FechaRequest) (*FechaReply, error)
+	ObterVersaoGlobal(context.Context, *VersaoRequest) (*VersaoReply, error)
 	mustEmbedUnimplementedSistemaArquivosServer()
 }
 
@@ -112,6 +125,9 @@ func (UnimplementedSistemaArquivosServer) Escreve(context.Context, *EscreveReque
 }
 func (UnimplementedSistemaArquivosServer) Fecha(context.Context, *FechaRequest) (*FechaReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Fecha not implemented")
+}
+func (UnimplementedSistemaArquivosServer) ObterVersaoGlobal(context.Context, *VersaoRequest) (*VersaoReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ObterVersaoGlobal not implemented")
 }
 func (UnimplementedSistemaArquivosServer) mustEmbedUnimplementedSistemaArquivosServer() {}
 func (UnimplementedSistemaArquivosServer) testEmbeddedByValue()                         {}
@@ -206,6 +222,24 @@ func _SistemaArquivos_Fecha_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SistemaArquivos_ObterVersaoGlobal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VersaoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SistemaArquivosServer).ObterVersaoGlobal(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SistemaArquivos_ObterVersaoGlobal_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SistemaArquivosServer).ObterVersaoGlobal(ctx, req.(*VersaoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SistemaArquivos_ServiceDesc is the grpc.ServiceDesc for SistemaArquivos service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -228,6 +262,10 @@ var SistemaArquivos_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Fecha",
 			Handler:    _SistemaArquivos_Fecha_Handler,
+		},
+		{
+			MethodName: "ObterVersaoGlobal",
+			Handler:    _SistemaArquivos_ObterVersaoGlobal_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

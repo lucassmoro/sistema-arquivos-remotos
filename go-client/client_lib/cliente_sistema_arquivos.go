@@ -9,11 +9,13 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
+
 type ClienteSistemaArquivos struct{
     conection *grpc.ClientConn
     clientAPI pb.SistemaArquivosClient
     cache map[int]byte
     ultimoDescritor int
+    versaoLocal int64 // Versão que o cliente conhece
 }
 
 func NovoCliente (endereco string) (*ClienteSistemaArquivos, error) {
@@ -32,6 +34,7 @@ func NovoCliente (endereco string) (*ClienteSistemaArquivos, error) {
         clientAPI: pb.NewSistemaArquivosClient(conn),
         cache: make(map[int]byte),
         ultimoDescritor: -1,
+        versaoLocal: 0,
     }, nil
 }
 
@@ -40,7 +43,7 @@ func (c *ClienteSistemaArquivos) CloseConnection() error{
 }
 
 func (c *ClienteSistemaArquivos) Abre(nome_arquivo string) int{
-    ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second) // controla a chamada. A conexao ja é estabelecida no construtor
+    ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
     defer cancel()
 
     req := &pb.AbreRequest{
@@ -53,6 +56,10 @@ func (c *ClienteSistemaArquivos) Abre(nome_arquivo string) int{
         fmt.Println("Erro ao abrir arquivo", nome_arquivo, ". Status:", rply.GetStatus())
         return int(rply.GetStatus())
     }
+    
+    // ⭐ ATUALIZA A VERSÃO LOCAL AO ABRIR ARQUIVO
+    c.atualizarVersaoLocal()
+    
     return int(rply.GetDescritor())
 }
 
@@ -60,11 +67,15 @@ func (c *ClienteSistemaArquivos) Le(descritor int, posicao int, tamanho int) int
     ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
     defer cancel()
 
+    // ⭐ VERIFICA SE HOUVE MUDANÇA GLOBAL ANTES DE USAR CACHE
+    if !c.versaoEstaAtualizada() {
+        c.limparCache()
+        fmt.Println("Cache invalidada - houve escrita no servidor")
+    }
+
     // se o descritor for diferente do ultimo usado, esvazia a cache
     if c.ultimoDescritor != descritor{
-        for k := range c.cache {
-            delete(c.cache, k)
-        }
+        c.limparCache()
         c.ultimoDescritor = descritor
     } 
 
@@ -84,7 +95,6 @@ func (c *ClienteSistemaArquivos) Le(descritor int, posicao int, tamanho int) int
         fmt.Println("Conteudo lido da cache:", string(conteudoCache))
         return 0
     }
-
 
     req := &pb.LeRequest{
         Descritor: int32(descritor),
@@ -113,14 +123,14 @@ func (c *ClienteSistemaArquivos) Escreve(descritor int, posicao int, conteudo st
     ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
     defer cancel()
 
+    // ⭐ SEMPRE LIMPA CACHE ANTES DE ESCREVER
+    c.limparCache()
+
     // se o descritor for diferente do ultimo usado, esvazia a cache
     if c.ultimoDescritor != descritor{
-        for k := range c.cache {
-            delete(c.cache, k)
-        }
+        c.limparCache()
         c.ultimoDescritor = descritor
     } 
-
 
     req := &pb.EscreveRequest{
         Descritor: int32(descritor),
@@ -142,9 +152,11 @@ func (c *ClienteSistemaArquivos) Escreve(descritor int, posicao int, conteudo st
         c.cache[posicao+i] = conteudoCache[i]
     } 
 
+    // ⭐ ATUALIZA VERSÃO LOCAL APÓS ESCREVER
+    c.atualizarVersaoLocal()
+
     return int(rply.GetBytesEscritos())
 }
-
 
 func (c *ClienteSistemaArquivos) Fecha(descritor int) int{
     ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -160,4 +172,52 @@ func (c *ClienteSistemaArquivos) Fecha(descritor int) int{
         fmt.Println("Erro ao fechar o arquivo. Status:", rply.GetStatus())
     }
     return int(rply.GetStatus())
+}
+
+// ⭐ MÉTODOS PARA CONTROLE DE VERSÃO GLOBAL
+
+// versaoEstaAtualizada verifica se a versão local está sincronizada com o servidor
+func (c *ClienteSistemaArquivos) versaoEstaAtualizada() bool {
+    ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+    defer cancel()
+
+    req := &pb.VersaoRequest{}
+    rply, err := c.clientAPI.ObterVersaoGlobal(ctx, req)
+    
+    if err != nil {
+        fmt.Println("Erro ao verificar versão:", err)
+        return false // Em caso de erro, assume que cache está inválida
+    }
+
+    versaoServidor := rply.GetVersaoGlobal()
+    
+    if versaoServidor != c.versaoLocal {
+        c.versaoLocal = versaoServidor // Atualiza versão local
+        return false // Cache inválida
+    }
+    return true // Cache válida
+}
+
+// atualizarVersaoLocal atualiza a versão local com a versão atual do servidor
+func (c *ClienteSistemaArquivos) atualizarVersaoLocal() {
+    ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+    defer cancel()
+
+    req := &pb.VersaoRequest{}
+    rply, err := c.clientAPI.ObterVersaoGlobal(ctx, req)
+    
+    if err != nil {
+        fmt.Println("Erro ao atualizar versão local:", err)
+        return
+    }
+
+    c.versaoLocal = rply.GetVersaoGlobal()
+    fmt.Println("Versão local atualizada para:", c.versaoLocal)
+}
+
+// limparCache limpa completamente a cache
+func (c *ClienteSistemaArquivos) limparCache() {
+    for k := range c.cache {
+        delete(c.cache, k)
+    }
 }

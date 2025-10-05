@@ -15,6 +15,8 @@ import java.nio.file.*;
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
+
 /**
  *
  * @author Lucas
@@ -24,7 +26,8 @@ public class ServidorSistemaArquivos extends SistemaArquivosGrpc.SistemaArquivos
     
     private final ConcurrentHashMap<Integer, String> tabelaArquivos = new ConcurrentHashMap<>(); //mapper thread-safe que mapeia um descritor do cliente para um arquivo do servidor
     private final AtomicInteger contadorDescritor = new AtomicInteger(0); // variavel atomica que garante o incremento com concorrencia, gera descritores unicos pro cliente
-    
+    private final AtomicLong versaoGlobal = new AtomicLong(0); // Contador global de versões
+
     @Override
     public void abre(SistemaArquivosProto.AbreRequest req, //AbreRequest é uma classe dentro da classe SistemaArquivosProto gerada no protobuf
                      StreamObserver<SistemaArquivosProto.AbreReply> responseObserver){
@@ -107,6 +110,8 @@ public class ServidorSistemaArquivos extends SistemaArquivosGrpc.SistemaArquivos
                 }
             }
 
+            versaoGlobal.incrementAndGet();
+
             responseBuilder.setStatus(0).setBytesEscritos(conteudo.size());
 
         } catch (Exception e) {
@@ -135,5 +140,18 @@ public class ServidorSistemaArquivos extends SistemaArquivosGrpc.SistemaArquivos
         responseObserver.onNext(responseBuilder.build());
         responseObserver.onCompleted();
     }
+    public void obterVersaoGlobal(SistemaArquivosProto.VersaoRequest req,
+                                  StreamObserver<SistemaArquivosProto.VersaoReply> responseObserver) {
 
+        SistemaArquivosProto.VersaoReply reply = SistemaArquivosProto.VersaoReply.newBuilder()
+                .setVersaoGlobal(versaoGlobal.get())
+                .build();
+
+        responseObserver.onNext(reply);
+        responseObserver.onCompleted();
+    }
+
+    // Os outros métodos (abre, le, fecha) permanecem EXATAMENTE iguais
 }
+
+

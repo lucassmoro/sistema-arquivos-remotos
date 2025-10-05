@@ -14,6 +14,7 @@ public class ClienteSistemaArquivos {
     private final SistemaArquivosGrpc.SistemaArquivosBlockingStub userStub;
     private final Map<Integer, Character> cache = new HashMap<>();
     private int ultimoDescritor = -1;
+    private long versaoLocal = 0; // Versão que o cliente conhece
 
     public ClienteSistemaArquivos(String host, int port) {
         this.channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
@@ -26,6 +27,9 @@ public class ClienteSistemaArquivos {
 
         if (reply.getStatus() >= 0){
             System.out.println(nome_arquivo+" aberto, descritor: "+reply.getDescritor());
+
+            atualizarVersaoLocal();
+
             return reply.getDescritor();
         }
         System.out.println("Falha ao abrir "+nome_arquivo+". Status: "+reply.getStatus());
@@ -33,6 +37,12 @@ public class ClienteSistemaArquivos {
     }
 
     public int Le(int descritor, int posicao, int tamanho){
+
+        if (!versaoEstaAtualizada()) {
+            cache.clear();
+            System.out.println("Cache invalidada - houve escrita no servidor");
+        }
+
         // se mudou o arquivo, reseta a cache
         if (descritor != ultimoDescritor) {
             cache.clear();
@@ -76,6 +86,8 @@ public class ClienteSistemaArquivos {
     }
 
     public int Escreve(int descritor, int posicao, String conteudo){
+        cache.clear();
+
         // se mudou o arquivo, reseta a cache
         if (descritor != ultimoDescritor) {
             cache.clear();
@@ -97,6 +109,8 @@ public class ClienteSistemaArquivos {
                 cache.put(posicao+i, conteudo_cache[i]);
             }
 
+            atualizarVersaoLocal();
+
             return reply.getBytesEscritos();
         }
         System.out.println("Falha ao escrever. Status: "+reply.getStatus());
@@ -113,4 +127,34 @@ public class ClienteSistemaArquivos {
 
         return reply.getStatus();
     }
+    private boolean versaoEstaAtualizada() {
+        try {
+            SistemaArquivosProto.VersaoRequest request = SistemaArquivosProto.VersaoRequest.newBuilder().build();
+            SistemaArquivosProto.VersaoReply reply = userStub.obterVersaoGlobal(request);
+
+            long versaoServidor = reply.getVersaoGlobal();
+
+            if (versaoServidor != versaoLocal) {
+                versaoLocal = versaoServidor; // Atualiza versão local
+                return false; // Cache inválida
+            }
+            return true; // Cache válida
+
+        } catch (Exception e) {
+            System.err.println("Erro ao verificar versão: " + e.getMessage());
+            return false; // Em caso de erro, assume que cache está inválida
+        }
+    }
+
+    private void atualizarVersaoLocal() {
+        try {
+            SistemaArquivosProto.VersaoRequest request = SistemaArquivosProto.VersaoRequest.newBuilder().build();
+            SistemaArquivosProto.VersaoReply reply = userStub.obterVersaoGlobal(request);
+            versaoLocal = reply.getVersaoGlobal();
+            System.out.println("Versão local atualizada para: " + versaoLocal);
+        } catch (Exception e) {
+            System.err.println("Erro ao atualizar versão local: " + e.getMessage());
+        }
+    }
+
 }
