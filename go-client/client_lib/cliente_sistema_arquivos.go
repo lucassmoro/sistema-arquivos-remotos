@@ -1,14 +1,13 @@
-package sistemaarquivos
+package clientlib
 
 import (
-	"bytes"
 	"context"
 	"fmt"
-	"log"
 	"time"
 
-	pb "github.com/seuuser/ine5418/go-client/proto" // importa o pacote gerado do .proto
+	pb "ine5418/go-client/proto" // importa o pacote gerado do .proto
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 type ClienteSistemaArquivos struct{
@@ -17,7 +16,12 @@ type ClienteSistemaArquivos struct{
 }
 
 func NovoCliente (endereco string) (*ClienteSistemaArquivos, error) {
-    conn, err := grpc.Dial(endereco, grpc.WithInsecure())
+    ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+    defer cancel()
+
+    conn, err := grpc.DialContext(ctx, endereco,
+        grpc.WithTransportCredentials(insecure.NewCredentials()))
+
     if err != nil {
         fmt.Println("Erro ao criar conexao", err)
         return nil, err
@@ -28,7 +32,7 @@ func NovoCliente (endereco string) (*ClienteSistemaArquivos, error) {
     }, nil
 }
 
-func (c *ClienteSistemaArquivos) Close() error{
+func (c *ClienteSistemaArquivos) CloseConnection() error{
     return c.conection.Close()
 }
 

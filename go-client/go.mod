@@ -1,4 +1,4 @@
-module github.com/seuuser/ine5418/go-client
+module ine5418/go-client
 
 go 1.23.0
 

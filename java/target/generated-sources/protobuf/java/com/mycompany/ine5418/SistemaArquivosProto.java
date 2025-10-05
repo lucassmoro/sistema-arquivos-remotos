@@ -4472,8 +4472,9 @@ public final class SistemaArquivosProto {
       "\022\037.sistemaarquivos.EscreveRequest\032\035.sist" +
       "emaarquivos.EscreveReply\022C\n\005Fecha\022\035.sist" +
       "emaarquivos.FechaRequest\032\033.sistemaarquiv" +
-      "os.FechaReplyB-\n\025com.mycompany.ine5418B\024" +
-      "SistemaArquivosProtob\006proto3"
+      "os.FechaReplyBE\n\025com.mycompany.ine5418B\024" +
+      "SistemaArquivosProtoZ\026/proto;sistemaarqu" +
+      "ivosb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
