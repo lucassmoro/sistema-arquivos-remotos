@@ -68,7 +68,7 @@ func (c *ClienteSistemaArquivos) Le(descritor int, posicao int, tamanho int) int
     if rply.GetStatus() < 0 {
         fmt.Println("Erro ao ler o arquivo. Status:", rply.GetStatus())
     } else {
-        fmt.Println("Conteudo lido:", rply.GetConteudoLer())
+        fmt.Println("Conteudo lido:", string(rply.GetConteudoLer()))
     }
     return int(rply.GetStatus())
 }
