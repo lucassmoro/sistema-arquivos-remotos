@@ -11,7 +11,7 @@ func main() {
 	}
 	defer cliente.CloseConnection()
 
-	descritor := cliente.Abre("gorila.txt")
+	descritor := cliente.Abre("cliente_go.txt")
 	bytes_escritos := cliente.Escreve(descritor, 0, "Hello from Golang")
 	cliente.Le(descritor, 0, bytes_escritos)
 	cliente.Fecha(descritor)
