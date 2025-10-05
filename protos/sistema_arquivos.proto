@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package sistemaarquivos;
 
+option go_package = "/proto;sistemaarquivos";
 option java_package = "com.mycompany.ine5418";
 option java_outer_classname = "SistemaArquivosProto";
 

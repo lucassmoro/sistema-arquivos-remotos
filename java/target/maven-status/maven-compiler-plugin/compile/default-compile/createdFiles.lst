@@ -19,6 +19,7 @@ com\mycompany\ine5418\SistemaArquivosGrpc$SistemaArquivosBaseDescriptorSupplier.
 com\mycompany\ine5418\SistemaArquivosGrpc$SistemaArquivosFutureStub.class
 com\mycompany\ine5418\SistemaArquivosProto$AbreReply$1.class
 com\mycompany\ine5418\SistemaArquivosProto$AbreReply.class
+com\mycompany\ine5418\Client.class
 com\mycompany\ine5418\SistemaArquivosGrpc$2.class
 com\mycompany\ine5418\SistemaArquivosGrpc$SistemaArquivosMethodDescriptorSupplier.class
 com\mycompany\ine5418\SistemaArquivosProto$EscreveRequest$Builder.class
@@ -30,6 +31,7 @@ com\mycompany\ine5418\SistemaArquivosProto$EscreveRequest$1.class
 com\mycompany\ine5418\SistemaArquivosProto$FechaRequest$Builder.class
 com\mycompany\ine5418\SistemaArquivosProto$EscreveReply.class
 com\mycompany\ine5418\SistemaArquivosProto$AbreRequest.class
+com\mycompany\ine5418\client_lib\ClienteSistemaArquivos.class
 com\mycompany\ine5418\SistemaArquivosProto$LeReply$1.class
 com\mycompany\ine5418\SistemaArquivosGrpc$MethodHandlers.class
 com\mycompany\ine5418\SistemaArquivosProto$LeReply.class
@@ -39,7 +41,6 @@ com\mycompany\ine5418\SistemaArquivosProto$LeRequest$Builder.class
 com\mycompany\ine5418\SistemaArquivosProto$AbreRequestOrBuilder.class
 com\mycompany\ine5418\SistemaArquivosProto$AbreRequest$Builder.class
 com\mycompany\ine5418\SistemaArquivosProto$LeRequestOrBuilder.class
-com\mycompany\ine5418\clients\ClienteSistemaArquivos.class
 com\mycompany\ine5418\SistemaArquivosProto$LeRequest.class
 com\mycompany\ine5418\SistemaArquivosGrpc$SistemaArquivosStub.class
 com\mycompany\ine5418\SistemaArquivosProto$AbreReplyOrBuilder.class

@@ -1,4 +1,4 @@
-package com.mycompany.ine5418.clients;
+package com.mycompany.ine5418.client_lib;
 
 import com.google.protobuf.ByteString;
 import com.mycompany.ine5418.SistemaArquivosGrpc;
@@ -16,7 +16,7 @@ public class ClienteSistemaArquivos {
         this.userStub = SistemaArquivosGrpc.newBlockingStub(this.channel);
     }
 
-    public int abre(String nome_arquivo){
+    public int Abre(String nome_arquivo){
         SistemaArquivosProto.AbreRequest request = SistemaArquivosProto.AbreRequest.newBuilder().setNomeArquivo(nome_arquivo).build();
         SistemaArquivosProto.AbreReply reply =  userStub.abre(request);
 
@@ -24,11 +24,11 @@ public class ClienteSistemaArquivos {
             System.out.println(nome_arquivo+" aberto, descritor: "+reply.getDescritor());
             return reply.getDescritor();
         }
-        System.out.println("Falha ao abrir "+nome_arquivo+", Status: "+reply.getStatus());
+        System.out.println("Falha ao abrir "+nome_arquivo+". Status: "+reply.getStatus());
         return reply.getStatus();
     }
 
-    public int le(int descritor, int posicao, int tamanho){
+    public int Le(int descritor, int posicao, int tamanho){
         SistemaArquivosProto.LeRequest request = SistemaArquivosProto.LeRequest.newBuilder()
                 .setDescritor(descritor).setPosicao(posicao).setTamanho(tamanho).build();
 
@@ -36,12 +36,12 @@ public class ClienteSistemaArquivos {
         if (reply.getStatus() >= 0){
             System.out.println("Conteudo lido: "+reply.getConteudoLer().toStringUtf8());
         } else {
-            System.out.println("Nao foi possivel ler o conteudo, Status: "+reply.getStatus());
+            System.out.println("Nao foi possivel ler o conteudo. Status: "+reply.getStatus());
         }
         return reply.getStatus();
     }
 
-    public int escreve(int descritor, int posicao, String conteudo){
+    public int Escreve(int descritor, int posicao, String conteudo){
         ByteString conteudoReq = ByteString.copyFrom(conteudo.getBytes(StandardCharsets.UTF_8));
 
         SistemaArquivosProto.EscreveRequest request = SistemaArquivosProto.EscreveRequest.newBuilder()
@@ -53,16 +53,16 @@ public class ClienteSistemaArquivos {
             System.out.println("Bytes escritos: " + reply.getBytesEscritos());
             return reply.getBytesEscritos();
         }
-        System.out.println("Falha ao escrever, Status: "+reply.getStatus());
+        System.out.println("Falha ao escrever. Status: "+reply.getStatus());
         return reply.getStatus();
     }
 
-    public int fecha(int descritor){
+    public int Fecha(int descritor){
         SistemaArquivosProto.FechaRequest request = SistemaArquivosProto.FechaRequest.newBuilder().setDescritor(descritor).build();
         SistemaArquivosProto.FechaReply reply = userStub.fecha(request);
 
         if (reply.getStatus() < 0){
-            System.out.println("Falha ao fechar o arquivo, Status: "+reply.getStatus());
+            System.out.println("Falha ao fechar o arquivo. Status: "+reply.getStatus());
         }
 
         return reply.getStatus();
