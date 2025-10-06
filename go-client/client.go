@@ -34,14 +34,14 @@ func main() {
 		opcao, _ := strconv.Atoi(linha)
 
 		switch opcao {
-		case 1: // Abre
+		case 1:
 			fmt.Print("Digite o nome do arquivo: ")
 			nome, _ := reader.ReadString('\n')
 			nome = strings.TrimSpace(nome)
 			descritor := cliente.Abre(nome)
 			fmt.Println("Descritor retornado:", descritor)
 
-		case 2: // Le
+		case 2:
 			fmt.Print("Descritor: ")
 			linha, _ := reader.ReadString('\n')
 			descritor, _ := strconv.Atoi(strings.TrimSpace(linha))
@@ -56,7 +56,7 @@ func main() {
 
 			cliente.Le(descritor, posicao, tamanho)
 
-		case 3: // Escreve
+		case 3:
 			fmt.Print("Descritor: ")
 			linha, _ := reader.ReadString('\n')
 			descritor, _ := strconv.Atoi(strings.TrimSpace(linha))
@@ -71,14 +71,14 @@ func main() {
 
 			cliente.Escreve(descritor, posicao, conteudo)
 
-		case 4: // Fecha
+		case 4:
 			fmt.Print("Descritor: ")
 			linha, _ := reader.ReadString('\n')
 			descritor, _ := strconv.Atoi(strings.TrimSpace(linha))
 
 			cliente.Fecha(descritor)
 
-		case 0: // Sair
+		case 0: 
 			fmt.Println("Encerrando cliente...")
 			return
 

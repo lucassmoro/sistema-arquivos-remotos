@@ -160,11 +160,10 @@ func (c *ClienteSistemaArquivos) Escreve(descritor int, posicao int, conteudo st
 
         rply, err := c.clientAPI.Escreve(ctx, req)
         if err != nil {
-            return -1, err // ⭐ ERRO DE REDE - FAZ RETRY
+            return -1, err
         }
 
         if rply.GetStatus() < 0 {
-            // ⭐ ERRO DE APLICAÇÃO - FAZ RETRY
             return -1, fmt.Errorf("Falha na escrita. Status: %d", rply.GetStatus())
         }
 
@@ -230,7 +229,7 @@ func (c *ClienteSistemaArquivos) iniciarEscutaNotificacoes() {
             notificacao, err := stream.Recv()
             if err != nil {
                 log.Printf("Erro ao receber notificação: %v", err)
-                // Tenta reconectar apos 5 segundos
+                // tenta reconectar apos 5 segundos
                 time.Sleep(5 * time.Second)
                 c.iniciarEscutaNotificacoes()
                 return
@@ -240,7 +239,7 @@ func (c *ClienteSistemaArquivos) iniciarEscutaNotificacoes() {
             if novaVersao != c.versaoLocal {
                 fmt.Printf("Notificação [SERVIDOR]: versão %d (era %d)\n", novaVersao, c.versaoLocal)
                 c.versaoLocal = novaVersao
-                c.limparCache() // Invalida cache quando versão muda
+                c.limparCache() //invalida cache quando versão muda
             }
         }
     }()
