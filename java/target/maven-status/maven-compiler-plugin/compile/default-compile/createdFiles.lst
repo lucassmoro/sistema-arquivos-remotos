@@ -29,6 +29,7 @@ com\mycompany\ine5418\SistemaArquivosProto$EscreveRequest.class
 com\mycompany\ine5418\SistemaArquivosProto$LeRequest$1.class
 com\mycompany\ine5418\SistemaArquivosProto$NotificacaoReplyOrBuilder.class
 com\mycompany\ine5418\SistemaArquivosGrpc$AsyncService.class
+com\mycompany\ine5418\client_lib\RetryExecutor.class
 com\mycompany\ine5418\SistemaArquivosProto$NotificacaoRequest.class
 com\mycompany\ine5418\SistemaArquivosProto$FechaReply.class
 com\mycompany\ine5418\SistemaArquivosProto$EscreveRequest$1.class
@@ -48,6 +49,7 @@ com\mycompany\ine5418\SistemaArquivosProto$LeRequest$Builder.class
 com\mycompany\ine5418\SistemaArquivosProto$AbreRequestOrBuilder.class
 com\mycompany\ine5418\SistemaArquivosProto$AbreRequest$Builder.class
 com\mycompany\ine5418\SistemaArquivosProto$LeRequestOrBuilder.class
+com\mycompany\ine5418\client_lib\RetryExecutor$RetryableOperation.class
 com\mycompany\ine5418\SistemaArquivosProto$LeRequest.class
 com\mycompany\ine5418\SistemaArquivosGrpc$SistemaArquivosStub.class
 com\mycompany\ine5418\SistemaArquivosProto$NotificacaoRequest$1.class

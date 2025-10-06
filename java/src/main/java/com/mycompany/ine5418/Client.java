@@ -18,7 +18,7 @@ public class Client {
             System.out.println("3 - Escrever no arquivo");
             System.out.println("4 - Fechar arquivo");
             System.out.println("0 - Sair");
-            System.out.print("Escolha uma opcao: ");
+            System.out.println("Escolha uma opcao: ");
 
             int opcao = scanner.nextInt();
             int descritor;
