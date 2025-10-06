@@ -19,11 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	SistemaArquivos_Abre_FullMethodName              = "/sistemaarquivos.SistemaArquivos/Abre"
-	SistemaArquivos_Le_FullMethodName                = "/sistemaarquivos.SistemaArquivos/Le"
-	SistemaArquivos_Escreve_FullMethodName           = "/sistemaarquivos.SistemaArquivos/Escreve"
-	SistemaArquivos_Fecha_FullMethodName             = "/sistemaarquivos.SistemaArquivos/Fecha"
-	SistemaArquivos_ObterVersaoGlobal_FullMethodName = "/sistemaarquivos.SistemaArquivos/ObterVersaoGlobal"
+	SistemaArquivos_Abre_FullMethodName                 = "/sistemaarquivos.SistemaArquivos/Abre"
+	SistemaArquivos_Le_FullMethodName                   = "/sistemaarquivos.SistemaArquivos/Le"
+	SistemaArquivos_Escreve_FullMethodName              = "/sistemaarquivos.SistemaArquivos/Escreve"
+	SistemaArquivos_Fecha_FullMethodName                = "/sistemaarquivos.SistemaArquivos/Fecha"
+	SistemaArquivos_RegistrarNotificacao_FullMethodName = "/sistemaarquivos.SistemaArquivos/RegistrarNotificacao"
 )
 
 // SistemaArquivosClient is the client API for SistemaArquivos service.
@@ -34,7 +34,7 @@ type SistemaArquivosClient interface {
 	Le(ctx context.Context, in *LeRequest, opts ...grpc.CallOption) (*LeReply, error)
 	Escreve(ctx context.Context, in *EscreveRequest, opts ...grpc.CallOption) (*EscreveReply, error)
 	Fecha(ctx context.Context, in *FechaRequest, opts ...grpc.CallOption) (*FechaReply, error)
-	ObterVersaoGlobal(ctx context.Context, in *VersaoRequest, opts ...grpc.CallOption) (*VersaoReply, error)
+	RegistrarNotificacao(ctx context.Context, in *NotificacaoRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[NotificacaoReply], error)
 }
 
 type sistemaArquivosClient struct {
@@ -85,15 +85,24 @@ func (c *sistemaArquivosClient) Fecha(ctx context.Context, in *FechaRequest, opt
 	return out, nil
 }
 
-func (c *sistemaArquivosClient) ObterVersaoGlobal(ctx context.Context, in *VersaoRequest, opts ...grpc.CallOption) (*VersaoReply, error) {
+func (c *sistemaArquivosClient) RegistrarNotificacao(ctx context.Context, in *NotificacaoRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[NotificacaoReply], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(VersaoReply)
-	err := c.cc.Invoke(ctx, SistemaArquivos_ObterVersaoGlobal_FullMethodName, in, out, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &SistemaArquivos_ServiceDesc.Streams[0], SistemaArquivos_RegistrarNotificacao_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
-	return out, nil
+	x := &grpc.GenericClientStream[NotificacaoRequest, NotificacaoReply]{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
 }
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type SistemaArquivos_RegistrarNotificacaoClient = grpc.ServerStreamingClient[NotificacaoReply]
 
 // SistemaArquivosServer is the server API for SistemaArquivos service.
 // All implementations must embed UnimplementedSistemaArquivosServer
@@ -103,7 +112,7 @@ type SistemaArquivosServer interface {
 	Le(context.Context, *LeRequest) (*LeReply, error)
 	Escreve(context.Context, *EscreveRequest) (*EscreveReply, error)
 	Fecha(context.Context, *FechaRequest) (*FechaReply, error)
-	ObterVersaoGlobal(context.Context, *VersaoRequest) (*VersaoReply, error)
+	RegistrarNotificacao(*NotificacaoRequest, grpc.ServerStreamingServer[NotificacaoReply]) error
 	mustEmbedUnimplementedSistemaArquivosServer()
 }
 
@@ -126,8 +135,8 @@ func (UnimplementedSistemaArquivosServer) Escreve(context.Context, *EscreveReque
 func (UnimplementedSistemaArquivosServer) Fecha(context.Context, *FechaRequest) (*FechaReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Fecha not implemented")
 }
-func (UnimplementedSistemaArquivosServer) ObterVersaoGlobal(context.Context, *VersaoRequest) (*VersaoReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ObterVersaoGlobal not implemented")
+func (UnimplementedSistemaArquivosServer) RegistrarNotificacao(*NotificacaoRequest, grpc.ServerStreamingServer[NotificacaoReply]) error {
+	return status.Errorf(codes.Unimplemented, "method RegistrarNotificacao not implemented")
 }
 func (UnimplementedSistemaArquivosServer) mustEmbedUnimplementedSistemaArquivosServer() {}
 func (UnimplementedSistemaArquivosServer) testEmbeddedByValue()                         {}
@@ -222,23 +231,16 @@ func _SistemaArquivos_Fecha_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SistemaArquivos_ObterVersaoGlobal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(VersaoRequest)
-	if err := dec(in); err != nil {
-		return nil, err
+func _SistemaArquivos_RegistrarNotificacao_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(NotificacaoRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
 	}
-	if interceptor == nil {
-		return srv.(SistemaArquivosServer).ObterVersaoGlobal(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: SistemaArquivos_ObterVersaoGlobal_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SistemaArquivosServer).ObterVersaoGlobal(ctx, req.(*VersaoRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+	return srv.(SistemaArquivosServer).RegistrarNotificacao(m, &grpc.GenericServerStream[NotificacaoRequest, NotificacaoReply]{ServerStream: stream})
 }
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type SistemaArquivos_RegistrarNotificacaoServer = grpc.ServerStreamingServer[NotificacaoReply]
 
 // SistemaArquivos_ServiceDesc is the grpc.ServiceDesc for SistemaArquivos service.
 // It's only intended for direct use with grpc.RegisterService,
@@ -263,11 +265,13 @@ var SistemaArquivos_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "Fecha",
 			Handler:    _SistemaArquivos_Fecha_Handler,
 		},
+	},
+	Streams: []grpc.StreamDesc{
 		{
-			MethodName: "ObterVersaoGlobal",
-			Handler:    _SistemaArquivos_ObterVersaoGlobal_Handler,
+			StreamName:    "RegistrarNotificacao",
+			Handler:       _SistemaArquivos_RegistrarNotificacao_Handler,
+			ServerStreams: true,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
 	Metadata: "sistema_arquivos.proto",
 }

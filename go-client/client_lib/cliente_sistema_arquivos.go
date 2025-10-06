@@ -3,22 +3,24 @@ package clientlib
 import (
 	"context"
 	"fmt"
+	"log"
 	"time"
 
-	pb "ine5418/go-client/proto" // importa o pacote gerado do .proto
+	pb "ine5418/go-client/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
 
 type ClienteSistemaArquivos struct{
-    conection *grpc.ClientConn
+    conection *grpc.ClientConn 
     clientAPI pb.SistemaArquivosClient
     cache map[int]byte
     ultimoDescritor int
-    versaoLocal int64 // Versão que o cliente conhece
+    versaoLocal int64
+    cancelNotificacao context.CancelFunc
 }
 
-func NovoCliente (endereco string) (*ClienteSistemaArquivos, error) {
+func NovoCliente(endereco string) (*ClienteSistemaArquivos, error) {
     ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
     defer cancel()
 
@@ -28,17 +30,62 @@ func NovoCliente (endereco string) (*ClienteSistemaArquivos, error) {
     if err != nil {
         fmt.Println("Erro ao criar conexao", err)
         return nil, err
-    } 
-    return &ClienteSistemaArquivos{
+    }
+    
+    cliente := &ClienteSistemaArquivos{
         conection: conn,
         clientAPI: pb.NewSistemaArquivosClient(conn),
         cache: make(map[int]byte),
         ultimoDescritor: -1,
         versaoLocal: 0,
-    }, nil
+    }
+    cliente.iniciarEscutaNotificacoes()
+    
+    return cliente, nil
 }
 
-func (c *ClienteSistemaArquivos) CloseConnection() error{
+func (c *ClienteSistemaArquivos) iniciarEscutaNotificacoes() {
+    ctx, cancel := context.WithCancel(context.Background())
+    c.cancelNotificacao = cancel
+    
+    req := &pb.NotificacaoRequest{
+        ClientId: fmt.Sprintf("go-client-%d", time.Now().UnixNano()),
+    }
+    
+    stream, err := c.clientAPI.RegistrarNotificacao(ctx, req)
+    if err != nil {
+        log.Printf("Erro ao registrar para notificações: %v", err)
+        return
+    }
+    
+    go func() {
+        for {
+            notificacao, err := stream.Recv()
+            if err != nil {
+                log.Printf("Erro ao receber notificação: %v", err)
+                // Tenta reconectar apos 5 segundos
+                time.Sleep(5 * time.Second)
+                c.iniciarEscutaNotificacoes()
+                return
+            }
+            
+            novaVersao := notificacao.GetVersaoGlobal()
+            if novaVersao != c.versaoLocal {
+                fmt.Printf("Notificação [SERVIDOR]: versão %d (era %d)\n", novaVersao, c.versaoLocal)
+                c.versaoLocal = novaVersao
+                c.limparCache() // Invalida cache quando versão muda
+            }
+        }
+    }()
+    
+    fmt.Println("Escuta de notificações iniciada")
+}
+
+func (c *ClienteSistemaArquivos) CloseConnection() error {
+    // ⭐ CANCELA A ESCUTA DE NOTIFICAÇÕES
+    if c.cancelNotificacao != nil {
+        c.cancelNotificacao()
+    }
     return c.conection.Close()
 }
 
@@ -57,9 +104,6 @@ func (c *ClienteSistemaArquivos) Abre(nome_arquivo string) int{
         return int(rply.GetStatus())
     }
     
-    // ⭐ ATUALIZA A VERSÃO LOCAL AO ABRIR ARQUIVO
-    c.atualizarVersaoLocal()
-    
     return int(rply.GetDescritor())
 }
 
@@ -67,19 +111,14 @@ func (c *ClienteSistemaArquivos) Le(descritor int, posicao int, tamanho int) int
     ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
     defer cancel()
 
-    // ⭐ VERIFICA SE HOUVE MUDANÇA GLOBAL ANTES DE USAR CACHE
-    if !c.versaoEstaAtualizada() {
-        c.limparCache()
-        fmt.Println("Cache invalidada - houve escrita no servidor")
-    }
+    // ⭐ NÃO PRECISA VERIFICAR VERSÃO - JÁ RECEBEMOS NOTIFICAÇÕES!
 
-    // se o descritor for diferente do ultimo usado, esvazia a cache
     if c.ultimoDescritor != descritor{
         c.limparCache()
         c.ultimoDescritor = descritor
     } 
 
-    // percorre cada posicao na cache e caso algum nao esteja presente, substitui a cache
+    // Verifica cache
     cacheMiss := false
     conteudoCache := make([]byte, tamanho)
     for i := 0; i<tamanho; i++{
@@ -109,12 +148,10 @@ func (c *ClienteSistemaArquivos) Le(descritor int, posicao int, tamanho int) int
     } else {
         fmt.Println("Conteudo lido:", string(rply.GetConteudoLer()))
 
-        // adiciona na cache
         dados := rply.GetConteudoLer()
         for i := 0; i < len(dados); i++ {
             c.cache[posicao+i] = dados[i]
         }
-        
     }
     return int(rply.GetStatus())
 }
@@ -123,10 +160,8 @@ func (c *ClienteSistemaArquivos) Escreve(descritor int, posicao int, conteudo st
     ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
     defer cancel()
 
-    // ⭐ SEMPRE LIMPA CACHE ANTES DE ESCREVER
     c.limparCache()
 
-    // se o descritor for diferente do ultimo usado, esvazia a cache
     if c.ultimoDescritor != descritor{
         c.limparCache()
         c.ultimoDescritor = descritor
@@ -146,14 +181,11 @@ func (c *ClienteSistemaArquivos) Escreve(descritor int, posicao int, conteudo st
     }
     fmt.Println("Bytes escritos:", rply.GetBytesEscritos())
 
-    // escreve na cache o conteudo escrito no servidor
+    // Escreve na cache
     conteudoCache := []byte(conteudo)
     for i := 0; i < int(rply.GetBytesEscritos()) ; i++{
         c.cache[posicao+i] = conteudoCache[i]
     } 
-
-    // ⭐ ATUALIZA VERSÃO LOCAL APÓS ESCREVER
-    c.atualizarVersaoLocal()
 
     return int(rply.GetBytesEscritos())
 }
@@ -174,48 +206,6 @@ func (c *ClienteSistemaArquivos) Fecha(descritor int) int{
     return int(rply.GetStatus())
 }
 
-// ⭐ MÉTODOS PARA CONTROLE DE VERSÃO GLOBAL
-
-// versaoEstaAtualizada verifica se a versão local está sincronizada com o servidor
-func (c *ClienteSistemaArquivos) versaoEstaAtualizada() bool {
-    ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-    defer cancel()
-
-    req := &pb.VersaoRequest{}
-    rply, err := c.clientAPI.ObterVersaoGlobal(ctx, req)
-    
-    if err != nil {
-        fmt.Println("Erro ao verificar versão:", err)
-        return false // Em caso de erro, assume que cache está inválida
-    }
-
-    versaoServidor := rply.GetVersaoGlobal()
-    
-    if versaoServidor != c.versaoLocal {
-        c.versaoLocal = versaoServidor // Atualiza versão local
-        return false // Cache inválida
-    }
-    return true // Cache válida
-}
-
-// atualizarVersaoLocal atualiza a versão local com a versão atual do servidor
-func (c *ClienteSistemaArquivos) atualizarVersaoLocal() {
-    ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-    defer cancel()
-
-    req := &pb.VersaoRequest{}
-    rply, err := c.clientAPI.ObterVersaoGlobal(ctx, req)
-    
-    if err != nil {
-        fmt.Println("Erro ao atualizar versão local:", err)
-        return
-    }
-
-    c.versaoLocal = rply.GetVersaoGlobal()
-    fmt.Println("Versão local atualizada para:", c.versaoLocal)
-}
-
-// limparCache limpa completamente a cache
 func (c *ClienteSistemaArquivos) limparCache() {
     for k := range c.cache {
         delete(c.cache, k)

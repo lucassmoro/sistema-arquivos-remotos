@@ -12,7 +12,7 @@ service SistemaArquivos{
     rpc Escreve (EscreveRequest) returns (EscreveReply);
     rpc Fecha (FechaRequest) returns (FechaReply);
 
-    rpc ObterVersaoGlobal(VersaoRequest) returns (VersaoReply) {}
+    rpc RegistrarNotificacao(NotificacaoRequest) returns (stream NotificacaoReply) {} 
 }
 message AbreRequest {
     string nome_arquivo = 1;
@@ -53,9 +53,10 @@ message FechaReply {
     int32 status = 1;
 }
 
-message VersaoRequest {
+message NotificacaoRequest {
+  string client_id = 1; // Identificador único do cliente
 }
 
-message VersaoReply {
+message NotificacaoReply {
   int64 versao_global = 1;
 }

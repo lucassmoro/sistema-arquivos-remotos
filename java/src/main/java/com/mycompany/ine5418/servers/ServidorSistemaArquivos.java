@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.ine5418.servers;
 
 import com.google.protobuf.ByteString;
@@ -14,47 +10,49 @@ import java.nio.channels.FileChannel;
 import java.nio.file.*;
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
-/**
- *
- * @author Lucas
- */
-
 public class ServidorSistemaArquivos extends SistemaArquivosGrpc.SistemaArquivosImplBase {
-    
-    private final ConcurrentHashMap<Integer, String> tabelaArquivos = new ConcurrentHashMap<>(); //mapper thread-safe que mapeia um descritor do cliente para um arquivo do servidor
-    private final AtomicInteger contadorDescritor = new AtomicInteger(0); // variavel atomica que garante o incremento com concorrencia, gera descritores unicos pro cliente
-    private final AtomicLong versaoGlobal = new AtomicLong(0); // Contador global de versões
+
+    private final ConcurrentHashMap<Integer, String> tabelaArquivos = new ConcurrentHashMap<>();
+    private final AtomicInteger contadorDescritor = new AtomicInteger(0);
+    private final AtomicLong versaoGlobal = new AtomicLong(0);
+    private final CopyOnWriteArrayList<StreamObserver<SistemaArquivosProto.NotificacaoReply>> observadores = new CopyOnWriteArrayList<>();
 
     @Override
-    public void abre(SistemaArquivosProto.AbreRequest req, //AbreRequest é uma classe dentro da classe SistemaArquivosProto gerada no protobuf
+    public void abre(SistemaArquivosProto.AbreRequest req,
                      StreamObserver<SistemaArquivosProto.AbreReply> responseObserver){
 
         SistemaArquivosProto.AbreReply.Builder responseBuilder = SistemaArquivosProto.AbreReply.newBuilder();
         try{
-            String nome_arquivo = req.getNomeArquivo(); // retorna o nome do arquivo do servidor
+            String nome_arquivo = req.getNomeArquivo();
 
             Path path = Paths.get(nome_arquivo);
             if(!Files.exists(path)) {
                 Files.createFile(path);
             }
 
-            int descritor = contadorDescritor.incrementAndGet(); // gera um descritor pro cliente que requisitou a abertura do arquivo
-            tabelaArquivos.put(descritor, nome_arquivo); // mapeia o descritor pro arquivo
-
-            responseBuilder.setStatus(0).setDescritor(descritor);
-
+            int descritor = contadorDescritor.incrementAndGet();
+            if (tabelaArquivos.contains(nome_arquivo)){
+                System.out.println("Arquivo ja aberto");
+                responseBuilder.setStatus(-1).setDescritor(-1);
+            } else {
+                tabelaArquivos.put(descritor, nome_arquivo);
+                responseBuilder.setStatus(0).setDescritor(descritor);
+            }
 
         } catch (Exception e){
             System.err.println("Erro ao abrir arquivo: " + e.getMessage());
             responseBuilder.setStatus(-1).setDescritor(-1);
         }
-        //falta implementar a resposta
+
         responseObserver.onNext(responseBuilder.build());
         responseObserver.onCompleted();
     }
+
+    @Override
     public void le(SistemaArquivosProto.LeRequest req,
                    StreamObserver<SistemaArquivosProto.LeReply> responseObserver){
 
@@ -85,6 +83,7 @@ public class ServidorSistemaArquivos extends SistemaArquivosGrpc.SistemaArquivos
         responseObserver.onCompleted();
     }
 
+    @Override
     public void escreve(SistemaArquivosProto.EscreveRequest req,
                         StreamObserver<SistemaArquivosProto.EscreveReply> responseObserver){
 
@@ -93,7 +92,6 @@ public class ServidorSistemaArquivos extends SistemaArquivosGrpc.SistemaArquivos
             int descritor = req.getDescritor();
             int posicao = req.getPosicao();
             ByteString conteudo = req.getConteudoEscrever();
-
 
             String nome_arquivo = tabelaArquivos.get(descritor);
             if (nome_arquivo == null){
@@ -110,7 +108,9 @@ public class ServidorSistemaArquivos extends SistemaArquivosGrpc.SistemaArquivos
                 }
             }
 
-            versaoGlobal.incrementAndGet();
+            long novaVersao = versaoGlobal.incrementAndGet();
+            System.out.println("Versão global incrementada para: " + novaVersao);
+            notificarTodosClientes(novaVersao);
 
             responseBuilder.setStatus(0).setBytesEscritos(conteudo.size());
 
@@ -122,6 +122,7 @@ public class ServidorSistemaArquivos extends SistemaArquivosGrpc.SistemaArquivos
         responseObserver.onCompleted();
     }
 
+    @Override
     public void fecha(SistemaArquivosProto.FechaRequest req,
                       StreamObserver<SistemaArquivosProto.FechaReply> responseObserver){
 
@@ -140,18 +141,44 @@ public class ServidorSistemaArquivos extends SistemaArquivosGrpc.SistemaArquivos
         responseObserver.onNext(responseBuilder.build());
         responseObserver.onCompleted();
     }
-    public void obterVersaoGlobal(SistemaArquivosProto.VersaoRequest req,
-                                  StreamObserver<SistemaArquivosProto.VersaoReply> responseObserver) {
 
-        SistemaArquivosProto.VersaoReply reply = SistemaArquivosProto.VersaoReply.newBuilder()
-                .setVersaoGlobal(versaoGlobal.get())
-                .build();
+    @Override
+    public void registrarNotificacao(SistemaArquivosProto.NotificacaoRequest req,
+                                     StreamObserver<SistemaArquivosProto.NotificacaoReply> responseObserver) {
 
-        responseObserver.onNext(reply);
-        responseObserver.onCompleted();
+        String clientId = req.getClientId();
+        System.out.println("Cliente registrado para notificações: " + clientId);
+
+        // adiciona na lista de observadores
+        observadores.add(responseObserver);
+
+        // envia a versao atual
+        SistemaArquivosProto.NotificacaoReply notificacaoInicial =
+                SistemaArquivosProto.NotificacaoReply.newBuilder()
+                        .setVersaoGlobal(versaoGlobal.get())
+                        .build();
+        responseObserver.onNext(notificacaoInicial);
+
+        // O stream permanece aberto para futuras notificacoes
+        // O cliente vai receber onNext() sempre que a versao mudar
     }
 
-    // Os outros métodos (abre, le, fecha) permanecem EXATAMENTE iguais
+    private void notificarTodosClientes(long novaVersao) {
+        SistemaArquivosProto.NotificacaoReply notificacao =
+                SistemaArquivosProto.NotificacaoReply.newBuilder()
+                        .setVersaoGlobal(novaVersao)
+                        .build();
+
+        System.out.println("Notificando " + observadores.size() + " clientes sobre versão: " + novaVersao);
+
+        for (StreamObserver<SistemaArquivosProto.NotificacaoReply> observer : observadores) {
+            try {
+                observer.onNext(notificacao);
+            } catch (Exception e) {
+                System.err.println("Erro ao notificar cliente (pode ter desconectado): " + e.getMessage());
+                // remove observadores que deram erro (clientes desconectados)
+                observadores.remove(observer);
+            }
+        }
+    }
 }
-
-

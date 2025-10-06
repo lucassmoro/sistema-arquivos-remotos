@@ -429,26 +429,27 @@ func (x *FechaReply) GetStatus() int32 {
 	return 0
 }
 
-type VersaoRequest struct {
+type NotificacaoRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ClientId      string                 `protobuf:"bytes,1,opt,name=client_id,json=clientId,proto3" json:"client_id,omitempty"` // Identificador único do cliente
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *VersaoRequest) Reset() {
-	*x = VersaoRequest{}
+func (x *NotificacaoRequest) Reset() {
+	*x = NotificacaoRequest{}
 	mi := &file_sistema_arquivos_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *VersaoRequest) String() string {
+func (x *NotificacaoRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*VersaoRequest) ProtoMessage() {}
+func (*NotificacaoRequest) ProtoMessage() {}
 
-func (x *VersaoRequest) ProtoReflect() protoreflect.Message {
+func (x *NotificacaoRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_sistema_arquivos_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -460,32 +461,39 @@ func (x *VersaoRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use VersaoRequest.ProtoReflect.Descriptor instead.
-func (*VersaoRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use NotificacaoRequest.ProtoReflect.Descriptor instead.
+func (*NotificacaoRequest) Descriptor() ([]byte, []int) {
 	return file_sistema_arquivos_proto_rawDescGZIP(), []int{8}
 }
 
-type VersaoReply struct {
+func (x *NotificacaoRequest) GetClientId() string {
+	if x != nil {
+		return x.ClientId
+	}
+	return ""
+}
+
+type NotificacaoReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	VersaoGlobal  int64                  `protobuf:"varint,1,opt,name=versao_global,json=versaoGlobal,proto3" json:"versao_global,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *VersaoReply) Reset() {
-	*x = VersaoReply{}
+func (x *NotificacaoReply) Reset() {
+	*x = NotificacaoReply{}
 	mi := &file_sistema_arquivos_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *VersaoReply) String() string {
+func (x *NotificacaoReply) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*VersaoReply) ProtoMessage() {}
+func (*NotificacaoReply) ProtoMessage() {}
 
-func (x *VersaoReply) ProtoReflect() protoreflect.Message {
+func (x *NotificacaoReply) ProtoReflect() protoreflect.Message {
 	mi := &file_sistema_arquivos_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -497,12 +505,12 @@ func (x *VersaoReply) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use VersaoReply.ProtoReflect.Descriptor instead.
-func (*VersaoReply) Descriptor() ([]byte, []int) {
+// Deprecated: Use NotificacaoReply.ProtoReflect.Descriptor instead.
+func (*NotificacaoReply) Descriptor() ([]byte, []int) {
 	return file_sistema_arquivos_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *VersaoReply) GetVersaoGlobal() int64 {
+func (x *NotificacaoReply) GetVersaoGlobal() int64 {
 	if x != nil {
 		return x.VersaoGlobal
 	}
@@ -537,16 +545,17 @@ const file_sistema_arquivos_proto_rawDesc = "" +
 	"\tdescritor\x18\x01 \x01(\x05R\tdescritor\"$\n" +
 	"\n" +
 	"FechaReply\x12\x16\n" +
-	"\x06status\x18\x01 \x01(\x05R\x06status\"\x0f\n" +
-	"\rVersaoRequest\"2\n" +
-	"\vVersaoReply\x12#\n" +
-	"\rversao_global\x18\x01 \x01(\x03R\fversaoGlobal2\xf4\x02\n" +
+	"\x06status\x18\x01 \x01(\x05R\x06status\"1\n" +
+	"\x12NotificacaoRequest\x12\x1b\n" +
+	"\tclient_id\x18\x01 \x01(\tR\bclientId\"7\n" +
+	"\x10NotificacaoReply\x12#\n" +
+	"\rversao_global\x18\x01 \x01(\x03R\fversaoGlobal2\x83\x03\n" +
 	"\x0fSistemaArquivos\x12@\n" +
 	"\x04Abre\x12\x1c.sistemaarquivos.AbreRequest\x1a\x1a.sistemaarquivos.AbreReply\x12:\n" +
 	"\x02Le\x12\x1a.sistemaarquivos.LeRequest\x1a\x18.sistemaarquivos.LeReply\x12I\n" +
 	"\aEscreve\x12\x1f.sistemaarquivos.EscreveRequest\x1a\x1d.sistemaarquivos.EscreveReply\x12C\n" +
-	"\x05Fecha\x12\x1d.sistemaarquivos.FechaRequest\x1a\x1b.sistemaarquivos.FechaReply\x12S\n" +
-	"\x11ObterVersaoGlobal\x12\x1e.sistemaarquivos.VersaoRequest\x1a\x1c.sistemaarquivos.VersaoReply\"\x00BE\n" +
+	"\x05Fecha\x12\x1d.sistemaarquivos.FechaRequest\x1a\x1b.sistemaarquivos.FechaReply\x12b\n" +
+	"\x14RegistrarNotificacao\x12#.sistemaarquivos.NotificacaoRequest\x1a!.sistemaarquivos.NotificacaoReply\"\x000\x01BE\n" +
 	"\x15com.mycompany.ine5418B\x14SistemaArquivosProtoZ\x16/proto;sistemaarquivosb\x06proto3"
 
 var (
@@ -563,28 +572,28 @@ func file_sistema_arquivos_proto_rawDescGZIP() []byte {
 
 var file_sistema_arquivos_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_sistema_arquivos_proto_goTypes = []any{
-	(*AbreRequest)(nil),    // 0: sistemaarquivos.AbreRequest
-	(*AbreReply)(nil),      // 1: sistemaarquivos.AbreReply
-	(*LeRequest)(nil),      // 2: sistemaarquivos.LeRequest
-	(*LeReply)(nil),        // 3: sistemaarquivos.LeReply
-	(*EscreveRequest)(nil), // 4: sistemaarquivos.EscreveRequest
-	(*EscreveReply)(nil),   // 5: sistemaarquivos.EscreveReply
-	(*FechaRequest)(nil),   // 6: sistemaarquivos.FechaRequest
-	(*FechaReply)(nil),     // 7: sistemaarquivos.FechaReply
-	(*VersaoRequest)(nil),  // 8: sistemaarquivos.VersaoRequest
-	(*VersaoReply)(nil),    // 9: sistemaarquivos.VersaoReply
+	(*AbreRequest)(nil),        // 0: sistemaarquivos.AbreRequest
+	(*AbreReply)(nil),          // 1: sistemaarquivos.AbreReply
+	(*LeRequest)(nil),          // 2: sistemaarquivos.LeRequest
+	(*LeReply)(nil),            // 3: sistemaarquivos.LeReply
+	(*EscreveRequest)(nil),     // 4: sistemaarquivos.EscreveRequest
+	(*EscreveReply)(nil),       // 5: sistemaarquivos.EscreveReply
+	(*FechaRequest)(nil),       // 6: sistemaarquivos.FechaRequest
+	(*FechaReply)(nil),         // 7: sistemaarquivos.FechaReply
+	(*NotificacaoRequest)(nil), // 8: sistemaarquivos.NotificacaoRequest
+	(*NotificacaoReply)(nil),   // 9: sistemaarquivos.NotificacaoReply
 }
 var file_sistema_arquivos_proto_depIdxs = []int32{
 	0, // 0: sistemaarquivos.SistemaArquivos.Abre:input_type -> sistemaarquivos.AbreRequest
 	2, // 1: sistemaarquivos.SistemaArquivos.Le:input_type -> sistemaarquivos.LeRequest
 	4, // 2: sistemaarquivos.SistemaArquivos.Escreve:input_type -> sistemaarquivos.EscreveRequest
 	6, // 3: sistemaarquivos.SistemaArquivos.Fecha:input_type -> sistemaarquivos.FechaRequest
-	8, // 4: sistemaarquivos.SistemaArquivos.ObterVersaoGlobal:input_type -> sistemaarquivos.VersaoRequest
+	8, // 4: sistemaarquivos.SistemaArquivos.RegistrarNotificacao:input_type -> sistemaarquivos.NotificacaoRequest
 	1, // 5: sistemaarquivos.SistemaArquivos.Abre:output_type -> sistemaarquivos.AbreReply
 	3, // 6: sistemaarquivos.SistemaArquivos.Le:output_type -> sistemaarquivos.LeReply
 	5, // 7: sistemaarquivos.SistemaArquivos.Escreve:output_type -> sistemaarquivos.EscreveReply
 	7, // 8: sistemaarquivos.SistemaArquivos.Fecha:output_type -> sistemaarquivos.FechaReply
-	9, // 9: sistemaarquivos.SistemaArquivos.ObterVersaoGlobal:output_type -> sistemaarquivos.VersaoReply
+	9, // 9: sistemaarquivos.SistemaArquivos.RegistrarNotificacao:output_type -> sistemaarquivos.NotificacaoReply
 	5, // [5:10] is the sub-list for method output_type
 	0, // [0:5] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name

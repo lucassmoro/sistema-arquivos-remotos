@@ -139,35 +139,35 @@ public final class SistemaArquivosGrpc {
     return getFechaMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest,
-      com.mycompany.ine5418.SistemaArquivosProto.VersaoReply> getObterVersaoGlobalMethod;
+  private static volatile io.grpc.MethodDescriptor<com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest,
+      com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply> getRegistrarNotificacaoMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "ObterVersaoGlobal",
-      requestType = com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest.class,
-      responseType = com.mycompany.ine5418.SistemaArquivosProto.VersaoReply.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest,
-      com.mycompany.ine5418.SistemaArquivosProto.VersaoReply> getObterVersaoGlobalMethod() {
-    io.grpc.MethodDescriptor<com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest, com.mycompany.ine5418.SistemaArquivosProto.VersaoReply> getObterVersaoGlobalMethod;
-    if ((getObterVersaoGlobalMethod = SistemaArquivosGrpc.getObterVersaoGlobalMethod) == null) {
+      fullMethodName = SERVICE_NAME + '/' + "RegistrarNotificacao",
+      requestType = com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest.class,
+      responseType = com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+  public static io.grpc.MethodDescriptor<com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest,
+      com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply> getRegistrarNotificacaoMethod() {
+    io.grpc.MethodDescriptor<com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest, com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply> getRegistrarNotificacaoMethod;
+    if ((getRegistrarNotificacaoMethod = SistemaArquivosGrpc.getRegistrarNotificacaoMethod) == null) {
       synchronized (SistemaArquivosGrpc.class) {
-        if ((getObterVersaoGlobalMethod = SistemaArquivosGrpc.getObterVersaoGlobalMethod) == null) {
-          SistemaArquivosGrpc.getObterVersaoGlobalMethod = getObterVersaoGlobalMethod =
-              io.grpc.MethodDescriptor.<com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest, com.mycompany.ine5418.SistemaArquivosProto.VersaoReply>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ObterVersaoGlobal"))
+        if ((getRegistrarNotificacaoMethod = SistemaArquivosGrpc.getRegistrarNotificacaoMethod) == null) {
+          SistemaArquivosGrpc.getRegistrarNotificacaoMethod = getRegistrarNotificacaoMethod =
+              io.grpc.MethodDescriptor.<com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest, com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "RegistrarNotificacao"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest.getDefaultInstance()))
+                  com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.mycompany.ine5418.SistemaArquivosProto.VersaoReply.getDefaultInstance()))
-              .setSchemaDescriptor(new SistemaArquivosMethodDescriptorSupplier("ObterVersaoGlobal"))
+                  com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply.getDefaultInstance()))
+              .setSchemaDescriptor(new SistemaArquivosMethodDescriptorSupplier("RegistrarNotificacao"))
               .build();
         }
       }
     }
-    return getObterVersaoGlobalMethod;
+    return getRegistrarNotificacaoMethod;
   }
 
   /**
@@ -248,9 +248,9 @@ public final class SistemaArquivosGrpc {
 
     /**
      */
-    default void obterVersaoGlobal(com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest request,
-        io.grpc.stub.StreamObserver<com.mycompany.ine5418.SistemaArquivosProto.VersaoReply> responseObserver) {
-      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getObterVersaoGlobalMethod(), responseObserver);
+    default void registrarNotificacao(com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest request,
+        io.grpc.stub.StreamObserver<com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getRegistrarNotificacaoMethod(), responseObserver);
     }
   }
 
@@ -315,10 +315,10 @@ public final class SistemaArquivosGrpc {
 
     /**
      */
-    public void obterVersaoGlobal(com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest request,
-        io.grpc.stub.StreamObserver<com.mycompany.ine5418.SistemaArquivosProto.VersaoReply> responseObserver) {
-      io.grpc.stub.ClientCalls.asyncUnaryCall(
-          getChannel().newCall(getObterVersaoGlobalMethod(), getCallOptions()), request, responseObserver);
+    public void registrarNotificacao(com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest request,
+        io.grpc.stub.StreamObserver<com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncServerStreamingCall(
+          getChannel().newCall(getRegistrarNotificacaoMethod(), getCallOptions()), request, responseObserver);
     }
   }
 
@@ -368,9 +368,10 @@ public final class SistemaArquivosGrpc {
 
     /**
      */
-    public com.mycompany.ine5418.SistemaArquivosProto.VersaoReply obterVersaoGlobal(com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest request) {
-      return io.grpc.stub.ClientCalls.blockingUnaryCall(
-          getChannel(), getObterVersaoGlobalMethod(), getCallOptions(), request);
+    public java.util.Iterator<com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply> registrarNotificacao(
+        com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest request) {
+      return io.grpc.stub.ClientCalls.blockingServerStreamingCall(
+          getChannel(), getRegistrarNotificacaoMethod(), getCallOptions(), request);
     }
   }
 
@@ -421,21 +422,13 @@ public final class SistemaArquivosGrpc {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getFechaMethod(), getCallOptions()), request);
     }
-
-    /**
-     */
-    public com.google.common.util.concurrent.ListenableFuture<com.mycompany.ine5418.SistemaArquivosProto.VersaoReply> obterVersaoGlobal(
-        com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest request) {
-      return io.grpc.stub.ClientCalls.futureUnaryCall(
-          getChannel().newCall(getObterVersaoGlobalMethod(), getCallOptions()), request);
-    }
   }
 
   private static final int METHODID_ABRE = 0;
   private static final int METHODID_LE = 1;
   private static final int METHODID_ESCREVE = 2;
   private static final int METHODID_FECHA = 3;
-  private static final int METHODID_OBTER_VERSAO_GLOBAL = 4;
+  private static final int METHODID_REGISTRAR_NOTIFICACAO = 4;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -470,9 +463,9 @@ public final class SistemaArquivosGrpc {
           serviceImpl.fecha((com.mycompany.ine5418.SistemaArquivosProto.FechaRequest) request,
               (io.grpc.stub.StreamObserver<com.mycompany.ine5418.SistemaArquivosProto.FechaReply>) responseObserver);
           break;
-        case METHODID_OBTER_VERSAO_GLOBAL:
-          serviceImpl.obterVersaoGlobal((com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest) request,
-              (io.grpc.stub.StreamObserver<com.mycompany.ine5418.SistemaArquivosProto.VersaoReply>) responseObserver);
+        case METHODID_REGISTRAR_NOTIFICACAO:
+          serviceImpl.registrarNotificacao((com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest) request,
+              (io.grpc.stub.StreamObserver<com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -521,12 +514,12 @@ public final class SistemaArquivosGrpc {
               com.mycompany.ine5418.SistemaArquivosProto.FechaReply>(
                 service, METHODID_FECHA)))
         .addMethod(
-          getObterVersaoGlobalMethod(),
-          io.grpc.stub.ServerCalls.asyncUnaryCall(
+          getRegistrarNotificacaoMethod(),
+          io.grpc.stub.ServerCalls.asyncServerStreamingCall(
             new MethodHandlers<
-              com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest,
-              com.mycompany.ine5418.SistemaArquivosProto.VersaoReply>(
-                service, METHODID_OBTER_VERSAO_GLOBAL)))
+              com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest,
+              com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply>(
+                service, METHODID_REGISTRAR_NOTIFICACAO)))
         .build();
   }
 
@@ -579,7 +572,7 @@ public final class SistemaArquivosGrpc {
               .addMethod(getLeMethod())
               .addMethod(getEscreveMethod())
               .addMethod(getFechaMethod())
-              .addMethod(getObterVersaoGlobalMethod())
+              .addMethod(getRegistrarNotificacaoMethod())
               .build();
         }
       }

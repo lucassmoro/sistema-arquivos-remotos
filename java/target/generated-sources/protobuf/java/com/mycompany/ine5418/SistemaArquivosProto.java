@@ -4405,43 +4405,111 @@ public final class SistemaArquivosProto {
 
   }
 
-  public interface VersaoRequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:sistemaarquivos.VersaoRequest)
+  public interface NotificacaoRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:sistemaarquivos.NotificacaoRequest)
       com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Identificador único do cliente
+     * </pre>
+     *
+     * <code>string client_id = 1;</code>
+     * @return The clientId.
+     */
+    java.lang.String getClientId();
+    /**
+     * <pre>
+     * Identificador único do cliente
+     * </pre>
+     *
+     * <code>string client_id = 1;</code>
+     * @return The bytes for clientId.
+     */
+    com.google.protobuf.ByteString
+        getClientIdBytes();
   }
   /**
-   * Protobuf type {@code sistemaarquivos.VersaoRequest}
+   * Protobuf type {@code sistemaarquivos.NotificacaoRequest}
    */
-  public static final class VersaoRequest extends
+  public static final class NotificacaoRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:sistemaarquivos.VersaoRequest)
-      VersaoRequestOrBuilder {
+      // @@protoc_insertion_point(message_implements:sistemaarquivos.NotificacaoRequest)
+      NotificacaoRequestOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use VersaoRequest.newBuilder() to construct.
-    private VersaoRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use NotificacaoRequest.newBuilder() to construct.
+    private NotificacaoRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private VersaoRequest() {
+    private NotificacaoRequest() {
+      clientId_ = "";
     }
 
     @java.lang.Override
     @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(
         UnusedPrivateParameter unused) {
-      return new VersaoRequest();
+      return new NotificacaoRequest();
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.mycompany.ine5418.SistemaArquivosProto.internal_static_sistemaarquivos_VersaoRequest_descriptor;
+      return com.mycompany.ine5418.SistemaArquivosProto.internal_static_sistemaarquivos_NotificacaoRequest_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.mycompany.ine5418.SistemaArquivosProto.internal_static_sistemaarquivos_VersaoRequest_fieldAccessorTable
+      return com.mycompany.ine5418.SistemaArquivosProto.internal_static_sistemaarquivos_NotificacaoRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest.class, com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest.Builder.class);
+              com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest.class, com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest.Builder.class);
+    }
+
+    public static final int CLIENT_ID_FIELD_NUMBER = 1;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object clientId_ = "";
+    /**
+     * <pre>
+     * Identificador único do cliente
+     * </pre>
+     *
+     * <code>string client_id = 1;</code>
+     * @return The clientId.
+     */
+    @java.lang.Override
+    public java.lang.String getClientId() {
+      java.lang.Object ref = clientId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        clientId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * Identificador único do cliente
+     * </pre>
+     *
+     * <code>string client_id = 1;</code>
+     * @return The bytes for clientId.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getClientIdBytes() {
+      java.lang.Object ref = clientId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        clientId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     private byte memoizedIsInitialized = -1;
@@ -4458,6 +4526,9 @@ public final class SistemaArquivosProto {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(clientId_)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, clientId_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -4467,6 +4538,9 @@ public final class SistemaArquivosProto {
       if (size != -1) return size;
 
       size = 0;
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(clientId_)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, clientId_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -4477,11 +4551,13 @@ public final class SistemaArquivosProto {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest)) {
+      if (!(obj instanceof com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest)) {
         return super.equals(obj);
       }
-      com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest other = (com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest) obj;
+      com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest other = (com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest) obj;
 
+      if (!getClientId()
+          .equals(other.getClientId())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -4493,49 +4569,51 @@ public final class SistemaArquivosProto {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + CLIENT_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getClientId().hashCode();
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest parseFrom(
+    public static com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest parseFrom(
+    public static com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest parseFrom(
+    public static com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest parseFrom(
+    public static com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest parseFrom(byte[] data)
+    public static com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest parseFrom(
+    public static com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest parseFrom(java.io.InputStream input)
+    public static com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest parseFrom(
+    public static com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -4543,26 +4621,26 @@ public final class SistemaArquivosProto {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest parseDelimitedFrom(java.io.InputStream input)
+    public static com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
 
-    public static com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest parseDelimitedFrom(
+    public static com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest parseFrom(
+    public static com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest parseFrom(
+    public static com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -4575,7 +4653,7 @@ public final class SistemaArquivosProto {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest prototype) {
+    public static Builder newBuilder(com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -4591,26 +4669,26 @@ public final class SistemaArquivosProto {
       return builder;
     }
     /**
-     * Protobuf type {@code sistemaarquivos.VersaoRequest}
+     * Protobuf type {@code sistemaarquivos.NotificacaoRequest}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:sistemaarquivos.VersaoRequest)
-        com.mycompany.ine5418.SistemaArquivosProto.VersaoRequestOrBuilder {
+        // @@protoc_insertion_point(builder_implements:sistemaarquivos.NotificacaoRequest)
+        com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.mycompany.ine5418.SistemaArquivosProto.internal_static_sistemaarquivos_VersaoRequest_descriptor;
+        return com.mycompany.ine5418.SistemaArquivosProto.internal_static_sistemaarquivos_NotificacaoRequest_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.mycompany.ine5418.SistemaArquivosProto.internal_static_sistemaarquivos_VersaoRequest_fieldAccessorTable
+        return com.mycompany.ine5418.SistemaArquivosProto.internal_static_sistemaarquivos_NotificacaoRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest.class, com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest.Builder.class);
+                com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest.class, com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest.Builder.class);
       }
 
-      // Construct using com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest.newBuilder()
+      // Construct using com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest.newBuilder()
       private Builder() {
 
       }
@@ -4623,23 +4701,25 @@ public final class SistemaArquivosProto {
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        bitField0_ = 0;
+        clientId_ = "";
         return this;
       }
 
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.mycompany.ine5418.SistemaArquivosProto.internal_static_sistemaarquivos_VersaoRequest_descriptor;
+        return com.mycompany.ine5418.SistemaArquivosProto.internal_static_sistemaarquivos_NotificacaoRequest_descriptor;
       }
 
       @java.lang.Override
-      public com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest getDefaultInstanceForType() {
-        return com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest.getDefaultInstance();
+      public com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest getDefaultInstanceForType() {
+        return com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest.getDefaultInstance();
       }
 
       @java.lang.Override
-      public com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest build() {
-        com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest result = buildPartial();
+      public com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest build() {
+        com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -4647,10 +4727,18 @@ public final class SistemaArquivosProto {
       }
 
       @java.lang.Override
-      public com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest buildPartial() {
-        com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest result = new com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest(this);
+      public com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest buildPartial() {
+        com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest result = new com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
+      }
+
+      private void buildPartial0(com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.clientId_ = clientId_;
+        }
       }
 
       @java.lang.Override
@@ -4687,16 +4775,21 @@ public final class SistemaArquivosProto {
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest) {
-          return mergeFrom((com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest)other);
+        if (other instanceof com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest) {
+          return mergeFrom((com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest other) {
-        if (other == com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest other) {
+        if (other == com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest.getDefaultInstance()) return this;
+        if (!other.getClientId().isEmpty()) {
+          clientId_ = other.clientId_;
+          bitField0_ |= 0x00000001;
+          onChanged();
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
@@ -4723,6 +4816,11 @@ public final class SistemaArquivosProto {
               case 0:
                 done = true;
                 break;
+              case 10: {
+                clientId_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 10
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -4738,6 +4836,99 @@ public final class SistemaArquivosProto {
         } // finally
         return this;
       }
+      private int bitField0_;
+
+      private java.lang.Object clientId_ = "";
+      /**
+       * <pre>
+       * Identificador único do cliente
+       * </pre>
+       *
+       * <code>string client_id = 1;</code>
+       * @return The clientId.
+       */
+      public java.lang.String getClientId() {
+        java.lang.Object ref = clientId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          clientId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Identificador único do cliente
+       * </pre>
+       *
+       * <code>string client_id = 1;</code>
+       * @return The bytes for clientId.
+       */
+      public com.google.protobuf.ByteString
+          getClientIdBytes() {
+        java.lang.Object ref = clientId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          clientId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Identificador único do cliente
+       * </pre>
+       *
+       * <code>string client_id = 1;</code>
+       * @param value The clientId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setClientId(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        clientId_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Identificador único do cliente
+       * </pre>
+       *
+       * <code>string client_id = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearClientId() {
+        clientId_ = getDefaultInstance().getClientId();
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Identificador único do cliente
+       * </pre>
+       *
+       * <code>string client_id = 1;</code>
+       * @param value The bytes for clientId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setClientIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        clientId_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -4751,23 +4942,23 @@ public final class SistemaArquivosProto {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:sistemaarquivos.VersaoRequest)
+      // @@protoc_insertion_point(builder_scope:sistemaarquivos.NotificacaoRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:sistemaarquivos.VersaoRequest)
-    private static final com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:sistemaarquivos.NotificacaoRequest)
+    private static final com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest();
+      DEFAULT_INSTANCE = new com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest();
     }
 
-    public static com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest getDefaultInstance() {
+    public static com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<VersaoRequest>
-        PARSER = new com.google.protobuf.AbstractParser<VersaoRequest>() {
+    private static final com.google.protobuf.Parser<NotificacaoRequest>
+        PARSER = new com.google.protobuf.AbstractParser<NotificacaoRequest>() {
       @java.lang.Override
-      public VersaoRequest parsePartialFrom(
+      public NotificacaoRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
@@ -4786,24 +4977,24 @@ public final class SistemaArquivosProto {
       }
     };
 
-    public static com.google.protobuf.Parser<VersaoRequest> parser() {
+    public static com.google.protobuf.Parser<NotificacaoRequest> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<VersaoRequest> getParserForType() {
+    public com.google.protobuf.Parser<NotificacaoRequest> getParserForType() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.mycompany.ine5418.SistemaArquivosProto.VersaoRequest getDefaultInstanceForType() {
+    public com.mycompany.ine5418.SistemaArquivosProto.NotificacaoRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface VersaoReplyOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:sistemaarquivos.VersaoReply)
+  public interface NotificacaoReplyOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:sistemaarquivos.NotificacaoReply)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -4813,38 +5004,38 @@ public final class SistemaArquivosProto {
     long getVersaoGlobal();
   }
   /**
-   * Protobuf type {@code sistemaarquivos.VersaoReply}
+   * Protobuf type {@code sistemaarquivos.NotificacaoReply}
    */
-  public static final class VersaoReply extends
+  public static final class NotificacaoReply extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:sistemaarquivos.VersaoReply)
-      VersaoReplyOrBuilder {
+      // @@protoc_insertion_point(message_implements:sistemaarquivos.NotificacaoReply)
+      NotificacaoReplyOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use VersaoReply.newBuilder() to construct.
-    private VersaoReply(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use NotificacaoReply.newBuilder() to construct.
+    private NotificacaoReply(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private VersaoReply() {
+    private NotificacaoReply() {
     }
 
     @java.lang.Override
     @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(
         UnusedPrivateParameter unused) {
-      return new VersaoReply();
+      return new NotificacaoReply();
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.mycompany.ine5418.SistemaArquivosProto.internal_static_sistemaarquivos_VersaoReply_descriptor;
+      return com.mycompany.ine5418.SistemaArquivosProto.internal_static_sistemaarquivos_NotificacaoReply_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.mycompany.ine5418.SistemaArquivosProto.internal_static_sistemaarquivos_VersaoReply_fieldAccessorTable
+      return com.mycompany.ine5418.SistemaArquivosProto.internal_static_sistemaarquivos_NotificacaoReply_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.mycompany.ine5418.SistemaArquivosProto.VersaoReply.class, com.mycompany.ine5418.SistemaArquivosProto.VersaoReply.Builder.class);
+              com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply.class, com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply.Builder.class);
     }
 
     public static final int VERSAO_GLOBAL_FIELD_NUMBER = 1;
@@ -4898,10 +5089,10 @@ public final class SistemaArquivosProto {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof com.mycompany.ine5418.SistemaArquivosProto.VersaoReply)) {
+      if (!(obj instanceof com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply)) {
         return super.equals(obj);
       }
-      com.mycompany.ine5418.SistemaArquivosProto.VersaoReply other = (com.mycompany.ine5418.SistemaArquivosProto.VersaoReply) obj;
+      com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply other = (com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply) obj;
 
       if (getVersaoGlobal()
           != other.getVersaoGlobal()) return false;
@@ -4924,44 +5115,44 @@ public final class SistemaArquivosProto {
       return hash;
     }
 
-    public static com.mycompany.ine5418.SistemaArquivosProto.VersaoReply parseFrom(
+    public static com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.mycompany.ine5418.SistemaArquivosProto.VersaoReply parseFrom(
+    public static com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.mycompany.ine5418.SistemaArquivosProto.VersaoReply parseFrom(
+    public static com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.mycompany.ine5418.SistemaArquivosProto.VersaoReply parseFrom(
+    public static com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.mycompany.ine5418.SistemaArquivosProto.VersaoReply parseFrom(byte[] data)
+    public static com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.mycompany.ine5418.SistemaArquivosProto.VersaoReply parseFrom(
+    public static com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.mycompany.ine5418.SistemaArquivosProto.VersaoReply parseFrom(java.io.InputStream input)
+    public static com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.mycompany.ine5418.SistemaArquivosProto.VersaoReply parseFrom(
+    public static com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -4969,26 +5160,26 @@ public final class SistemaArquivosProto {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static com.mycompany.ine5418.SistemaArquivosProto.VersaoReply parseDelimitedFrom(java.io.InputStream input)
+    public static com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
 
-    public static com.mycompany.ine5418.SistemaArquivosProto.VersaoReply parseDelimitedFrom(
+    public static com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.mycompany.ine5418.SistemaArquivosProto.VersaoReply parseFrom(
+    public static com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.mycompany.ine5418.SistemaArquivosProto.VersaoReply parseFrom(
+    public static com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -5001,7 +5192,7 @@ public final class SistemaArquivosProto {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(com.mycompany.ine5418.SistemaArquivosProto.VersaoReply prototype) {
+    public static Builder newBuilder(com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -5017,26 +5208,26 @@ public final class SistemaArquivosProto {
       return builder;
     }
     /**
-     * Protobuf type {@code sistemaarquivos.VersaoReply}
+     * Protobuf type {@code sistemaarquivos.NotificacaoReply}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:sistemaarquivos.VersaoReply)
-        com.mycompany.ine5418.SistemaArquivosProto.VersaoReplyOrBuilder {
+        // @@protoc_insertion_point(builder_implements:sistemaarquivos.NotificacaoReply)
+        com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReplyOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.mycompany.ine5418.SistemaArquivosProto.internal_static_sistemaarquivos_VersaoReply_descriptor;
+        return com.mycompany.ine5418.SistemaArquivosProto.internal_static_sistemaarquivos_NotificacaoReply_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.mycompany.ine5418.SistemaArquivosProto.internal_static_sistemaarquivos_VersaoReply_fieldAccessorTable
+        return com.mycompany.ine5418.SistemaArquivosProto.internal_static_sistemaarquivos_NotificacaoReply_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.mycompany.ine5418.SistemaArquivosProto.VersaoReply.class, com.mycompany.ine5418.SistemaArquivosProto.VersaoReply.Builder.class);
+                com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply.class, com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply.Builder.class);
       }
 
-      // Construct using com.mycompany.ine5418.SistemaArquivosProto.VersaoReply.newBuilder()
+      // Construct using com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply.newBuilder()
       private Builder() {
 
       }
@@ -5057,17 +5248,17 @@ public final class SistemaArquivosProto {
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.mycompany.ine5418.SistemaArquivosProto.internal_static_sistemaarquivos_VersaoReply_descriptor;
+        return com.mycompany.ine5418.SistemaArquivosProto.internal_static_sistemaarquivos_NotificacaoReply_descriptor;
       }
 
       @java.lang.Override
-      public com.mycompany.ine5418.SistemaArquivosProto.VersaoReply getDefaultInstanceForType() {
-        return com.mycompany.ine5418.SistemaArquivosProto.VersaoReply.getDefaultInstance();
+      public com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply getDefaultInstanceForType() {
+        return com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply.getDefaultInstance();
       }
 
       @java.lang.Override
-      public com.mycompany.ine5418.SistemaArquivosProto.VersaoReply build() {
-        com.mycompany.ine5418.SistemaArquivosProto.VersaoReply result = buildPartial();
+      public com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply build() {
+        com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -5075,14 +5266,14 @@ public final class SistemaArquivosProto {
       }
 
       @java.lang.Override
-      public com.mycompany.ine5418.SistemaArquivosProto.VersaoReply buildPartial() {
-        com.mycompany.ine5418.SistemaArquivosProto.VersaoReply result = new com.mycompany.ine5418.SistemaArquivosProto.VersaoReply(this);
+      public com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply buildPartial() {
+        com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply result = new com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply(this);
         if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
 
-      private void buildPartial0(com.mycompany.ine5418.SistemaArquivosProto.VersaoReply result) {
+      private void buildPartial0(com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply result) {
         int from_bitField0_ = bitField0_;
         if (((from_bitField0_ & 0x00000001) != 0)) {
           result.versaoGlobal_ = versaoGlobal_;
@@ -5123,16 +5314,16 @@ public final class SistemaArquivosProto {
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.mycompany.ine5418.SistemaArquivosProto.VersaoReply) {
-          return mergeFrom((com.mycompany.ine5418.SistemaArquivosProto.VersaoReply)other);
+        if (other instanceof com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply) {
+          return mergeFrom((com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.mycompany.ine5418.SistemaArquivosProto.VersaoReply other) {
-        if (other == com.mycompany.ine5418.SistemaArquivosProto.VersaoReply.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply other) {
+        if (other == com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply.getDefaultInstance()) return this;
         if (other.getVersaoGlobal() != 0L) {
           setVersaoGlobal(other.getVersaoGlobal());
         }
@@ -5228,23 +5419,23 @@ public final class SistemaArquivosProto {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:sistemaarquivos.VersaoReply)
+      // @@protoc_insertion_point(builder_scope:sistemaarquivos.NotificacaoReply)
     }
 
-    // @@protoc_insertion_point(class_scope:sistemaarquivos.VersaoReply)
-    private static final com.mycompany.ine5418.SistemaArquivosProto.VersaoReply DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:sistemaarquivos.NotificacaoReply)
+    private static final com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.mycompany.ine5418.SistemaArquivosProto.VersaoReply();
+      DEFAULT_INSTANCE = new com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply();
     }
 
-    public static com.mycompany.ine5418.SistemaArquivosProto.VersaoReply getDefaultInstance() {
+    public static com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<VersaoReply>
-        PARSER = new com.google.protobuf.AbstractParser<VersaoReply>() {
+    private static final com.google.protobuf.Parser<NotificacaoReply>
+        PARSER = new com.google.protobuf.AbstractParser<NotificacaoReply>() {
       @java.lang.Override
-      public VersaoReply parsePartialFrom(
+      public NotificacaoReply parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
@@ -5263,17 +5454,17 @@ public final class SistemaArquivosProto {
       }
     };
 
-    public static com.google.protobuf.Parser<VersaoReply> parser() {
+    public static com.google.protobuf.Parser<NotificacaoReply> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<VersaoReply> getParserForType() {
+    public com.google.protobuf.Parser<NotificacaoReply> getParserForType() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.mycompany.ine5418.SistemaArquivosProto.VersaoReply getDefaultInstanceForType() {
+    public com.mycompany.ine5418.SistemaArquivosProto.NotificacaoReply getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -5320,15 +5511,15 @@ public final class SistemaArquivosProto {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_sistemaarquivos_FechaReply_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_sistemaarquivos_VersaoRequest_descriptor;
+    internal_static_sistemaarquivos_NotificacaoRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_sistemaarquivos_VersaoRequest_fieldAccessorTable;
+      internal_static_sistemaarquivos_NotificacaoRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_sistemaarquivos_VersaoReply_descriptor;
+    internal_static_sistemaarquivos_NotificacaoReply_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_sistemaarquivos_VersaoReply_fieldAccessorTable;
+      internal_static_sistemaarquivos_NotificacaoReply_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -5349,19 +5540,20 @@ public final class SistemaArquivosProto {
       "(\014\"6\n\014EscreveReply\022\016\n\006status\030\001 \001(\005\022\026\n\016by" +
       "tes_escritos\030\002 \001(\005\"!\n\014FechaRequest\022\021\n\tde" +
       "scritor\030\001 \001(\005\"\034\n\nFechaReply\022\016\n\006status\030\001 " +
-      "\001(\005\"\017\n\rVersaoRequest\"$\n\013VersaoReply\022\025\n\rv" +
-      "ersao_global\030\001 \001(\0032\364\002\n\017SistemaArquivos\022@" +
-      "\n\004Abre\022\034.sistemaarquivos.AbreRequest\032\032.s" +
-      "istemaarquivos.AbreReply\022:\n\002Le\022\032.sistema" +
-      "arquivos.LeRequest\032\030.sistemaarquivos.LeR" +
-      "eply\022I\n\007Escreve\022\037.sistemaarquivos.Escrev" +
-      "eRequest\032\035.sistemaarquivos.EscreveReply\022" +
-      "C\n\005Fecha\022\035.sistemaarquivos.FechaRequest\032" +
-      "\033.sistemaarquivos.FechaReply\022S\n\021ObterVer" +
-      "saoGlobal\022\036.sistemaarquivos.VersaoReques" +
-      "t\032\034.sistemaarquivos.VersaoReply\"\000BE\n\025com" +
-      ".mycompany.ine5418B\024SistemaArquivosProto" +
-      "Z\026/proto;sistemaarquivosb\006proto3"
+      "\001(\005\"\'\n\022NotificacaoRequest\022\021\n\tclient_id\030\001" +
+      " \001(\t\")\n\020NotificacaoReply\022\025\n\rversao_globa" +
+      "l\030\001 \001(\0032\203\003\n\017SistemaArquivos\022@\n\004Abre\022\034.si" +
+      "stemaarquivos.AbreRequest\032\032.sistemaarqui" +
+      "vos.AbreReply\022:\n\002Le\022\032.sistemaarquivos.Le" +
+      "Request\032\030.sistemaarquivos.LeReply\022I\n\007Esc" +
+      "reve\022\037.sistemaarquivos.EscreveRequest\032\035." +
+      "sistemaarquivos.EscreveReply\022C\n\005Fecha\022\035." +
+      "sistemaarquivos.FechaRequest\032\033.sistemaar" +
+      "quivos.FechaReply\022b\n\024RegistrarNotificaca" +
+      "o\022#.sistemaarquivos.NotificacaoRequest\032!" +
+      ".sistemaarquivos.NotificacaoReply\"\0000\001BE\n" +
+      "\025com.mycompany.ine5418B\024SistemaArquivosP" +
+      "rotoZ\026/proto;sistemaarquivosb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -5415,17 +5607,17 @@ public final class SistemaArquivosProto {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_sistemaarquivos_FechaReply_descriptor,
         new java.lang.String[] { "Status", });
-    internal_static_sistemaarquivos_VersaoRequest_descriptor =
+    internal_static_sistemaarquivos_NotificacaoRequest_descriptor =
       getDescriptor().getMessageTypes().get(8);
-    internal_static_sistemaarquivos_VersaoRequest_fieldAccessorTable = new
+    internal_static_sistemaarquivos_NotificacaoRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_sistemaarquivos_VersaoRequest_descriptor,
-        new java.lang.String[] { });
-    internal_static_sistemaarquivos_VersaoReply_descriptor =
+        internal_static_sistemaarquivos_NotificacaoRequest_descriptor,
+        new java.lang.String[] { "ClientId", });
+    internal_static_sistemaarquivos_NotificacaoReply_descriptor =
       getDescriptor().getMessageTypes().get(9);
-    internal_static_sistemaarquivos_VersaoReply_fieldAccessorTable = new
+    internal_static_sistemaarquivos_NotificacaoReply_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_sistemaarquivos_VersaoReply_descriptor,
+        internal_static_sistemaarquivos_NotificacaoReply_descriptor,
         new java.lang.String[] { "VersaoGlobal", });
   }
 
