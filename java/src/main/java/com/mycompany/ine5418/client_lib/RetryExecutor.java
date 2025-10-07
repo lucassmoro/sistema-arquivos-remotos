@@ -53,7 +53,6 @@ public class RetryExecutor {
     }
 
     private long calculateBackoffDelay(int attempt) {
-        // Backoff exponencial: delay * 2^(attempt-1), com limite máximo
         long delay = initialDelayMs * (long) Math.pow(2, attempt - 1);
         return Math.min(delay, maxDelayMs);
     }

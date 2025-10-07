@@ -151,7 +151,6 @@ public class ClienteSistemaArquivos {
         notificacaoObserver = new StreamObserver<SistemaArquivosProto.NotificacaoReply>() {
             @Override
             public void onNext(SistemaArquivosProto.NotificacaoReply notificacao) {
-                // ⭐ ATUALIZA VERSÃO LOCAL SEM FAZER RPC!
                 long novaVersao = notificacao.getVersaoGlobal();
                 if (novaVersao != versaoLocal) {
                     System.out.println("Notificação [SERVIDOR]: versão " + novaVersao + " (era " + versaoLocal + ")");
